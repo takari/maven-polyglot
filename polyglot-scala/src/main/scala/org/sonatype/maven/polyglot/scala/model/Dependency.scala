@@ -16,19 +16,21 @@ class Dependency(
     val scope: Option[String],
     val systemPath: Option[String],
     val exclusions: immutable.Seq[GroupArtifactId],
-    val optional: Boolean) {
+    val optional: Boolean
+) {
 
   /**
    * Returns a derived dependency with the given new properties.
    */
   def copy(
-    gav: Gav = gav,
-    `type`: String = `type`,
-    classifier: Option[String] = this.classifier,
-    scope: Option[String] = this.scope,
-    systemPath: Option[String] = this.systemPath,
-    exclusions: immutable.Seq[GroupArtifactId] = exclusions,
-    optional: Boolean = optional): Dependency =
+      gav: Gav = gav,
+      `type`: String = `type`,
+      classifier: Option[String] = this.classifier,
+      scope: Option[String] = this.scope,
+      systemPath: Option[String] = this.systemPath,
+      exclusions: immutable.Seq[GroupArtifactId] = exclusions,
+      optional: Boolean = optional
+  ): Dependency =
     new Dependency(gav, `type`, classifier, scope, systemPath, exclusions, optional)
 
   /**
@@ -41,7 +43,7 @@ class Dependency(
    * This is internally done by setting an universal exclusion (`"*" % "*"`).
    */
   def intransitive: Dependency = copy(exclusions = immutable.Seq("*" % "*"))
-  
+
   /**
    * Returns a derived dependency with the given scope.
    */
@@ -51,14 +53,14 @@ class Dependency(
 
 object Dependency {
   def apply(
-             gav: Gav,
-             `type`: String = "jar",
-             classifier: String = null,
-             scope: String = null,
-             systemPath: String = null,
-             exclusions: immutable.Seq[GroupArtifactId] = immutable.Seq.empty,
-             optional: Boolean = false
-             ) =
+      gav: Gav,
+      `type`: String = "jar",
+      classifier: String = null,
+      scope: String = null,
+      systemPath: String = null,
+      exclusions: immutable.Seq[GroupArtifactId] = immutable.Seq.empty,
+      optional: Boolean = false
+  ) =
     new Dependency(
       gav,
       `type`,
@@ -70,7 +72,6 @@ object Dependency {
     )
 }
 
-
 import org.sonatype.maven.polyglot.scala.ScalaPrettyPrinter._
 
 class PrettiedDependency(d: Dependency) {
@@ -80,7 +81,9 @@ class PrettiedDependency(d: Dependency) {
     val systemPathAssigned = d.systemPath.isDefined
     val exclusionsAssigned = d.exclusions.nonEmpty
     val optionalAssigned = d.optional
-    if (typeAssigned || classifierAssigned || systemPathAssigned || exclusionsAssigned || optionalAssigned) {
+    if (
+      typeAssigned || classifierAssigned || systemPathAssigned || exclusionsAssigned || optionalAssigned
+    ) {
       val args = scala.collection.mutable.ListBuffer(d.gav.asDoc)
       if (typeAssigned) args += assignString("`type`", d.`type`)
       d.classifier.foreach(args += assignString("classifier", _))
@@ -96,7 +99,6 @@ class PrettiedDependency(d: Dependency) {
     }
   }
 }
-
 
 import org.sonatype.maven.polyglot.scala.MavenConverters._
 import scala.jdk.CollectionConverters._

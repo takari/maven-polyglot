@@ -92,42 +92,43 @@ object ScalaModel {
   )
 
   def apply(
-             gav: Gav,
-             build: Build = null,
-             ciManagement: CiManagement = null,
-             contributors: immutable.Seq[Contributor] = Nil,
-             dependencyManagement: DependencyManagement = null,
-             dependencies: immutable.Seq[Dependency] = Nil,
-             description: String = null,
-             developers: immutable.Seq[Developer] = Nil,
-             distributionManagement: DistributionManagement = null,
-             inceptionYear: String = null,
-             issueManagement: IssueManagement = null,
-             licenses: immutable.Seq[License] = Nil,
-             mailingLists: immutable.Seq[MailingList] = Nil,
-             modelEncoding: String = "UTF-8",
-             modelVersion: String = "4.0.0",
-             modules: immutable.Seq[String] = Nil,
-             name: String = null,
-             organization: Organization = null,
-             packaging: String = "jar",
-             parent: Parent = null,
-             pluginRepositories: immutable.Seq[Repository] = Nil,
-             pomFile: File = null,
-             prerequisites: Prerequisites = null,
-             profiles: immutable.Seq[Profile] = Nil,
-             properties: Map[String, String] = Map.empty,
-             reporting: Reporting = null,
-             repositories: immutable.Seq[Repository] = Nil,
-             scm: Scm = null,
-             url: String = null
-             )(implicit scalaVersion: ScalaVersion) = {
+      gav: Gav,
+      build: Build = null,
+      ciManagement: CiManagement = null,
+      contributors: immutable.Seq[Contributor] = Nil,
+      dependencyManagement: DependencyManagement = null,
+      dependencies: immutable.Seq[Dependency] = Nil,
+      description: String = null,
+      developers: immutable.Seq[Developer] = Nil,
+      distributionManagement: DistributionManagement = null,
+      inceptionYear: String = null,
+      issueManagement: IssueManagement = null,
+      licenses: immutable.Seq[License] = Nil,
+      mailingLists: immutable.Seq[MailingList] = Nil,
+      modelEncoding: String = "UTF-8",
+      modelVersion: String = "4.0.0",
+      modules: immutable.Seq[String] = Nil,
+      name: String = null,
+      organization: Organization = null,
+      packaging: String = "jar",
+      parent: Parent = null,
+      pluginRepositories: immutable.Seq[Repository] = Nil,
+      pomFile: File = null,
+      prerequisites: Prerequisites = null,
+      profiles: immutable.Seq[Profile] = Nil,
+      properties: Map[String, String] = Map.empty,
+      reporting: Reporting = null,
+      repositories: immutable.Seq[Repository] = Nil,
+      scm: Scm = null,
+      url: String = null
+  )(implicit scalaVersion: ScalaVersion) = {
 
     val scalaLang = "org.scala-lang" % "scala-library" % scalaVersion.version
     val scalaLangIncluded = dependencies.exists {
       d => d.gav.groupId == scalaLang.groupId && d.gav.artifactId == scalaLang.artifactId
     }
-    val targetDependencies = if (scalaLangIncluded) dependencies else dependencies :+ Dependency(scalaLang)
+    val targetDependencies =
+      if (scalaLangIncluded) dependencies else dependencies :+ Dependency(scalaLang)
 
     val targetBuild = Option(build).map({
       b =>
@@ -141,7 +142,8 @@ object ScalaModel {
 
         val pluginManagement = b.pluginManagement.getOrElse(PluginManagement())
         val lifeCycleMappingIncluded = pluginManagement.plugins.exists {
-          p => p.gav.groupId == lifeCycleMapping.gav.groupId && p.gav.artifactId == lifeCycleMapping.gav.artifactId
+          p =>
+            p.gav.groupId == lifeCycleMapping.gav.groupId && p.gav.artifactId == lifeCycleMapping.gav.artifactId
         }
         val targetPluginManagementPlugins =
           if (lifeCycleMappingIncluded) pluginManagement.plugins
@@ -149,13 +151,15 @@ object ScalaModel {
         val targetPluginManagement = Some(new PluginManagement(targetPluginManagementPlugins))
 
         val mavenCompilerIncluded = b.plugins.exists {
-          p => p.gav.groupId == mavenCompiler.gav.groupId && p.gav.artifactId == mavenCompiler.gav.artifactId
+          p =>
+            p.gav.groupId == mavenCompiler.gav.groupId && p.gav.artifactId == mavenCompiler.gav.artifactId
         }
         val targetMavenCompiler =
           if (mavenCompilerIncluded) None
           else Some(mavenCompiler)
         val scalaCompilerIncluded = b.plugins.exists {
-          p => p.gav.groupId == scalaCompiler.gav.groupId && p.gav.artifactId == scalaCompiler.gav.artifactId
+          p =>
+            p.gav.groupId == scalaCompiler.gav.groupId && p.gav.artifactId == scalaCompiler.gav.artifactId
         }
         val targetScalaCompiler =
           if (scalaCompilerIncluded) None
@@ -166,7 +170,11 @@ object ScalaModel {
         val targetSurefire =
           if (surefireIncluded) None
           else Some(surefire)
-        val targetPlugins = b.plugins ++: immutable.Seq(targetMavenCompiler, targetScalaCompiler, targetSurefire).flatten
+        val targetPlugins = b.plugins ++: immutable.Seq(
+          targetMavenCompiler,
+          targetScalaCompiler,
+          targetSurefire
+        ).flatten
 
         new Build(
           targetSourceDirectory,

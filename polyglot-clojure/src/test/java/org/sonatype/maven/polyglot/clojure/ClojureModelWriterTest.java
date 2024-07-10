@@ -11,9 +11,7 @@ import java.io.StringWriter;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
-
 import junit.framework.TestCase;
-
 import org.apache.maven.model.Model;
 import org.apache.maven.model.building.ModelProcessor;
 import org.apache.maven.model.io.ModelReader;
@@ -24,9 +22,7 @@ import org.junit.Test;
  *
  * @author <a href="mailto:mark@derricutt.com">Mark Derricutt</a>
  */
-public class ClojureModelWriterTest
-    extends TestCase
-{
+public class ClojureModelWriterTest extends TestCase {
     @Test
     public void testModelPrinting() throws Exception {
         Model model = readClojureModel("test1.clj");
@@ -47,7 +43,7 @@ public class ClojureModelWriterTest
         URL input = getClass().getResource(sourceFile);
         assertNotNull(input);
 
-        Map<String,Object> options = new HashMap<String,Object>();
+        Map<String, Object> options = new HashMap<String, Object>();
         options.put(ModelProcessor.SOURCE, input);
         return reader.read(input.openStream(), options);
     }

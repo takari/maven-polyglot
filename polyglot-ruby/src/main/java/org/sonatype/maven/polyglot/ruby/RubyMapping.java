@@ -7,12 +7,10 @@
  */
 package org.sonatype.maven.polyglot.ruby;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import java.io.File;
 import java.io.FilenameFilter;
-
+import javax.inject.Named;
+import javax.inject.Singleton;
 import org.sonatype.maven.polyglot.mapping.MappingSupport;
 
 /**
@@ -21,38 +19,30 @@ import org.sonatype.maven.polyglot.mapping.MappingSupport;
  * @author m.kristian
  */
 @Singleton
-@Named( "ruby" )
-public class RubyMapping extends MappingSupport
-{
-  public RubyMapping()
-  {
-    super( "ruby" );
-    setPomNames( "pom.rb", "Mavenfile", "Jarfile", "Gemfile" );
-    setAcceptLocationExtensions( ".rb", "Mavenfile", "Jarfile", "Gemfile", ".gemspec" );
-    setAcceptOptionKeys( "ruby:4.0.0" );
-    setPriority(1);
-  }
+@Named("ruby")
+public class RubyMapping extends MappingSupport {
+    public RubyMapping() {
+        super("ruby");
+        setPomNames("pom.rb", "Mavenfile", "Jarfile", "Gemfile");
+        setAcceptLocationExtensions(".rb", "Mavenfile", "Jarfile", "Gemfile", ".gemspec");
+        setAcceptOptionKeys("ruby:4.0.0");
+        setPriority(1);
+    }
 
-  @Override
-  public File locatePom( File dir )
-  {
-      File result = super.locatePom( dir );
-      if ( result == null )
-      {
-          String[] list = dir.list( new FilenameFilter() {
-            
-            public boolean accept( File dir, String name )
-            {
-                return name.endsWith( ".gemspec" );
+    @Override
+    public File locatePom(File dir) {
+        File result = super.locatePom(dir);
+        if (result == null) {
+            String[] list = dir.list(new FilenameFilter() {
+
+                public boolean accept(File dir, String name) {
+                    return name.endsWith(".gemspec");
+                }
+            });
+            if (list.length == 1) {
+                result = new File(dir, list[0]);
             }
-          } );
-          if ( list.length == 1 )
-          {
-              result = new File( dir, list[ 0 ] );
-          }
-      }
-      return result;
-  }
-  
-  
+        }
+        return result;
+    }
 }

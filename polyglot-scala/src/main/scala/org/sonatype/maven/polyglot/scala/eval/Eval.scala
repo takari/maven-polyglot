@@ -40,7 +40,8 @@ object Eval {
   private val classCleaner: Regex = "\\W".r
 
   class CompilerException(val messages: List[List[String]]) extends Exception(
-    "Compiler exception " + messages.map(_.mkString("\n")).mkString("\n"))
+        "Compiler exception " + messages.map(_.mkString("\n")).mkString("\n")
+      )
 
   trait MessageCollector {
     val messages: mutable.Seq[List[String]]
@@ -70,19 +71,27 @@ object Eval {
 class Eval(target: Option[File]) {
   import Eval._
 
-  private lazy val compilerPath = try {
-    classPathOfClass("scala.tools.nsc.Interpreter")
-  } catch {
-    case e: Throwable =>
-      throw new RuntimeException("Unable to load Scala interpreter from classpath (scala-compiler jar is missing?)", e)
-  }
+  private lazy val compilerPath =
+    try {
+      classPathOfClass("scala.tools.nsc.Interpreter")
+    } catch {
+      case e: Throwable =>
+        throw new RuntimeException(
+          "Unable to load Scala interpreter from classpath (scala-compiler jar is missing?)",
+          e
+        )
+    }
 
-  private lazy val libPath = try {
-    classPathOfClass("scala.AnyVal")
-  } catch {
-    case e: Throwable =>
-      throw new RuntimeException("Unable to load scala base object from classpath (scala-library jar is missing?)", e)
-  }
+  private lazy val libPath =
+    try {
+      classPathOfClass("scala.AnyVal")
+    } catch {
+      case e: Throwable =>
+        throw new RuntimeException(
+          "Unable to load scala base object from classpath (scala-library jar is missing?)",
+          e
+        )
+    }
 
   /**
    * Preprocessors to run the code through before it is passed to the Scala compiler.
@@ -100,7 +109,7 @@ class Eval(target: Option[File]) {
           new FilesystemResolver(new File("." + File.separator + "config"))
         ) ++
           Option(System.getProperty("com.twitter.util.Eval.includePath"))
-            .fold(Seq[Resolver]()){ path =>
+            .fold(Seq[Resolver]()) { path =>
               Seq[Resolver](new FilesystemResolver(new File(path)))
             }
       )
@@ -113,7 +122,8 @@ class Eval(target: Option[File]) {
   protected lazy val compilerSettings: Settings = new EvalSettings(target)
 
   // Primary encapsulation around native Scala compiler
-  private[this] lazy val compiler = new StringCompiler(codeWrapperLineOffset, target, compilerSettings, compilerMessageHandler)
+  private[this] lazy val compiler =
+    new StringCompiler(codeWrapperLineOffset, target, compilerSettings, compilerMessageHandler)
 
   /**
    * run preprocessors on our string, returning a String that is the processed source
@@ -147,7 +157,9 @@ class Eval(target: Option[File]) {
   def apply[T](files: File*): T = {
     if (target.isDefined) {
       val targetDir = target.get
-      val unprocessedSource = files.map { f => Using.resource(Source.fromFile(f))(_.mkString) }.mkString("\n")
+      val unprocessedSource = files.map { f =>
+        Using.resource(Source.fromFile(f))(_.mkString)
+      }.mkString("\n")
       val processed = sourceForString(unprocessedSource)
       val sourceChecksum = uniqueId(processed, None)
       val checksumFile = new File(targetDir, "checksum")
@@ -169,10 +181,12 @@ class Eval(target: Option[File]) {
       // so, clean it hash it and slap it on the end of Evaluator
       val cleanBaseName = fileToClassName(files(0))
       val className = "Evaluator__%s_%s".format(
-        cleanBaseName, sourceChecksum)
+        cleanBaseName,
+        sourceChecksum
+      )
       applyProcessed(className, processed, resetState = false)
     } else {
-      apply(files.map {f => Using.resource(Source.fromFile(f))(_.mkString) }.mkString("\n"), true)
+      apply(files.map { f => Using.resource(Source.fromFile(f))(_.mkString) }.mkString("\n"), true)
     }
   }
 
@@ -263,7 +277,9 @@ class Eval(target: Option[File]) {
   }
 
   def findClass(className: String): Class[_] = {
-    compiler.findClass(className).getOrElse { throw new ClassNotFoundException("no such class: " + className) }
+    compiler.findClass(className).getOrElse {
+      throw new ClassNotFoundException("no such class: " + className)
+    }
   }
 
   private[scala] def resetReporter(): Unit = {
@@ -340,8 +356,10 @@ class Eval(target: Option[File]) {
   lazy val impliedClassPath: List[String] = {
     def getClassPath(cl: ClassLoader, acc: List[List[String]] = List.empty): List[List[String]] = {
       val cp = cl match {
-        case urlClassLoader: URLClassLoader => urlClassLoader.getURLs.filter(_.getProtocol == "file").
-          map(u => new File(u.toURI).getPath).toList
+        case urlClassLoader: URLClassLoader =>
+          urlClassLoader.getURLs.filter(_.getProtocol == "file").map(u =>
+            new File(u.toURI).getPath
+          ).toList
         case _ => Nil
       }
       cl.getParent match {
@@ -354,18 +372,24 @@ class Eval(target: Option[File]) {
     val currentClassPath = classPath.head
 
     // if there's just one thing in the classpath, and it's a jar, assume an executable jar.
-    currentClassPath ::: (if (currentClassPath.size == 1 && currentClassPath.head.endsWith(".jar")) {
-      val jarFile = currentClassPath.head
-      val relativeRoot = new File(jarFile).getParentFile()
-      val nestedClassPath = new JarFile(jarFile).getManifest.getMainAttributes.getValue("Class-Path")
-      if (nestedClassPath eq null) {
-        Nil
-      } else {
-        nestedClassPath.split(" ").map { f => new File(relativeRoot, f).getAbsolutePath }.toList
-      }
-    } else {
-      Nil
-    }) ::: classPath.tail.flatten
+    currentClassPath ::: (if (
+                            currentClassPath.size == 1 && currentClassPath.head.endsWith(".jar")
+                          ) {
+                            val jarFile = currentClassPath.head
+                            val relativeRoot = new File(jarFile).getParentFile()
+                            val nestedClassPath = new JarFile(
+                              jarFile
+                            ).getManifest.getMainAttributes.getValue("Class-Path")
+                            if (nestedClassPath eq null) {
+                              Nil
+                            } else {
+                              nestedClassPath.split(" ").map { f =>
+                                new File(relativeRoot, f).getAbsolutePath
+                              }.toList
+                            }
+                          } else {
+                            Nil
+                          }) ::: classPath.tail.flatten
   }
 
   trait Preprocessor {
@@ -464,7 +488,11 @@ class Eval(target: Option[File]) {
    * around one of these and reuse it.
    */
   private class StringCompiler(
-                                lineOffset: Int, targetDir: Option[File], settings: Settings, messageHandler: Option[Reporter]) {
+      lineOffset: Int,
+      targetDir: Option[File],
+      settings: Settings,
+      messageHandler: Option[Reporter]
+  ) {
 
     val cache = new mutable.HashMap[String, Class[_]]()
     val target = compilerOutputDir
@@ -476,15 +504,19 @@ class Eval(target: Option[File]) {
         ERROR -> new AtomicInteger(0),
         WARNING -> new AtomicInteger(0),
         INFO -> new AtomicInteger(0)
-
       )
 
       override def hasErrors: Boolean = super.hasErrors || (counts(ERROR).get() > 0)
 
-      override def doReport(pos: Position, msg: String, severity: Severity, actions: List[CodeAction]): Unit = {
+      override def doReport(
+          pos: Position,
+          msg: String,
+          severity: Severity,
+          actions: List[CodeAction]
+      ): Unit = {
         counts(severity).intValue()
         val severityName = severity match {
-          case ERROR   => "error: "
+          case ERROR => "error: "
           case WARNING => "warning: "
           case _ => ""
         }
@@ -497,12 +529,12 @@ class Eval(target: Option[File]) {
           }
         messages += (severityName + lineMessage + ": " + msg) ::
           (if (pos.isDefined) {
-            pos.finalPosition.lineContent.stripLineEnd ::
-              (" " * (pos.column - 1) + "^") ::
-              Nil
-          } else {
-            Nil
-          })
+             pos.finalPosition.lineContent.stripLineEnd ::
+               (" " * (pos.column - 1) + "^") ::
+               Nil
+           } else {
+             Nil
+           })
       }
 
       override def reset(): Unit = {
@@ -580,7 +612,7 @@ class Eval(target: Option[File]) {
       if (Debug.enabled)
         Debug.printWithLineNumbers(code)
 
-      //reset reporter, or will always throw exception after one error while resetState==false
+      // reset reporter, or will always throw exception after one error while resetState==false
       resetReporter()
 
       // if you're looking for the performance hit, it's 1/2 this line...

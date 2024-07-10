@@ -7,32 +7,30 @@
  */
 package org.sonatype.maven.polyglot.clojure;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import clojure.lang.Atom;
 import clojure.lang.Namespace;
 import clojure.lang.RT;
 import clojure.lang.Symbol;
 import clojure.lang.Var;
-import org.apache.maven.model.Model;
-import org.sonatype.maven.polyglot.PolyglotModelUtil;
-import org.sonatype.maven.polyglot.io.ModelReaderSupport;
-
 import java.io.IOException;
 import java.io.Reader;
 import java.util.Map;
+import javax.inject.Named;
+import javax.inject.Singleton;
+import org.apache.maven.model.Model;
+import org.sonatype.maven.polyglot.PolyglotModelUtil;
+import org.sonatype.maven.polyglot.io.ModelReaderSupport;
 
 /**
  * Reads a <tt>pom.clj</tt> and transforms into a Maven {@link Model}.
  *
  * @author <a href="mailto:mark@derricutt.com">Mark Derricutt</a>
  * @author <a href="mailto:antony.blakey@linkuistics.com">Antony Blakey</a>
-
+ *
  * @since 0.7
  */
 @Singleton
-@Named( "clojure" )
+@Named("clojure")
 public class ClojureModelReader extends ModelReaderSupport {
 
     public Model read(final Reader input, final Map<String, ?> options) throws IOException {
@@ -52,12 +50,12 @@ public class ClojureModelReader extends ModelReaderSupport {
             USE.invoke(LEININGEN);
             clojure.lang.Compiler.load(input, location, location);
             final Var MODEL = Var.intern(Namespace.findOrCreate(READER), Symbol.create("*MODEL*"));
-            return  (Model) ((Atom) MODEL.get()).deref();
+            return (Model) ((Atom) MODEL.get()).deref();
         } catch (Exception e) {
             // Don't use new IOException(e) because it doesn't exist in Java 5
             throw (IOException) new IOException(e.toString()).initCause(e);
         } finally {
-                currentThread.setContextClassLoader(originalCL);
+            currentThread.setContextClassLoader(originalCL);
         }
     }
 }

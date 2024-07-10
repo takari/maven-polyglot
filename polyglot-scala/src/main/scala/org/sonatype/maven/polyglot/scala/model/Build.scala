@@ -10,53 +10,51 @@ package org.sonatype.maven.polyglot.scala.model
 import scala.collection.immutable
 
 class Build(
-             val sourceDirectory: Option[String],
-             val scriptSourceDirectory: Option[String],
-             val testSourceDirectory: Option[String],
-             val outputDirectory: Option[String],
-             val testOutputDirectory: Option[String],
-             val extensions: immutable.Seq[Extension],
-             defaultGoal: Option[String],
-             resources: immutable.Seq[Resource],
-             testResources: immutable.Seq[Resource],
-             directory: Option[String],
-             finalName: Option[String],
-             filters: immutable.Seq[String],
-             pluginManagement: Option[PluginManagement],
-             plugins: immutable.Seq[Plugin],
-             tasks: immutable.Seq[Task]
-             )
-  extends
-  BuildBase(
-    defaultGoal,
-    resources,
-    testResources,
-    directory,
-    finalName,
-    filters,
-    pluginManagement,
-    plugins,
-    tasks
-  )
+    val sourceDirectory: Option[String],
+    val scriptSourceDirectory: Option[String],
+    val testSourceDirectory: Option[String],
+    val outputDirectory: Option[String],
+    val testOutputDirectory: Option[String],
+    val extensions: immutable.Seq[Extension],
+    defaultGoal: Option[String],
+    resources: immutable.Seq[Resource],
+    testResources: immutable.Seq[Resource],
+    directory: Option[String],
+    finalName: Option[String],
+    filters: immutable.Seq[String],
+    pluginManagement: Option[PluginManagement],
+    plugins: immutable.Seq[Plugin],
+    tasks: immutable.Seq[Task]
+) extends BuildBase(
+      defaultGoal,
+      resources,
+      testResources,
+      directory,
+      finalName,
+      filters,
+      pluginManagement,
+      plugins,
+      tasks
+    )
 
 object Build {
   def apply(
-             sourceDirectory: String = null,
-             scriptSourceDirectory: String = null,
-             testSourceDirectory: String = null,
-             outputDirectory: String = null,
-             testOutputDirectory: String = null,
-             extensions: immutable.Seq[Extension] = Nil,
-             defaultGoal: String = null,
-             resources: immutable.Seq[Resource] = Nil,
-             testResources: immutable.Seq[Resource] = Nil,
-             directory: String = null,
-             finalName: String = null,
-             filters: immutable.Seq[String] = Nil,
-             pluginManagement: PluginManagement = null,
-             plugins: immutable.Seq[Plugin] = Nil,
-             tasks: immutable.Seq[Task] = Nil
-             ) =
+      sourceDirectory: String = null,
+      scriptSourceDirectory: String = null,
+      testSourceDirectory: String = null,
+      outputDirectory: String = null,
+      testOutputDirectory: String = null,
+      extensions: immutable.Seq[Extension] = Nil,
+      defaultGoal: String = null,
+      resources: immutable.Seq[Resource] = Nil,
+      testResources: immutable.Seq[Resource] = Nil,
+      directory: String = null,
+      finalName: String = null,
+      filters: immutable.Seq[String] = Nil,
+      pluginManagement: PluginManagement = null,
+      plugins: immutable.Seq[Plugin] = Nil,
+      tasks: immutable.Seq[Task] = Nil
+  ) =
     new Build(
       Option(sourceDirectory),
       Option(scriptSourceDirectory),
@@ -76,7 +74,6 @@ object Build {
     )
 }
 
-
 import org.sonatype.maven.polyglot.scala.ScalaPrettyPrinter._
 
 class PrettiedBuild(b: Build) {
@@ -87,12 +84,13 @@ class PrettiedBuild(b: Build) {
     b.testSourceDirectory.foreach(args += assignString("testSourceDirectory", _))
     b.outputDirectory.foreach(args += assignString("outputDirectory", _))
     b.testOutputDirectory.foreach(args += assignString("testOutputDirectory", _))
-    Some(b.extensions).filterNot(_.isEmpty).foreach(es => args += assign("extensions", seq(es.map(_.asDoc))))
+    Some(b.extensions).filterNot(_.isEmpty).foreach(es =>
+      args += assign("extensions", seq(es.map(_.asDoc)))
+    )
     args ++= b.asDocArgs
     `object`("Build", args.toList)
   }
 }
-
 
 import org.sonatype.maven.polyglot.scala.MavenConverters._
 import scala.jdk.CollectionConverters._

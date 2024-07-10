@@ -8,21 +8,21 @@
 package org.sonatype.maven.polyglot.scala.model
 
 class Activation(
-                  val activeByDefault: Boolean,
-                  val jdk: Option[String],
-                  val os: Option[ActivationOS],
-                  val property: Option[ActivationProperty],
-                  val file: Option[ActivationFile]
-                  )
+    val activeByDefault: Boolean,
+    val jdk: Option[String],
+    val os: Option[ActivationOS],
+    val property: Option[ActivationProperty],
+    val file: Option[ActivationFile]
+)
 
 object Activation {
   def apply(
-             activeByDefault: Boolean = false,
-             jdk: String = null,
-             os: ActivationOS = null,
-             property: ActivationProperty = null,
-             file: ActivationFile = null
-             ) =
+      activeByDefault: Boolean = false,
+      jdk: String = null,
+      os: ActivationOS = null,
+      property: ActivationProperty = null,
+      file: ActivationFile = null
+  ) =
     new Activation(
       activeByDefault,
       Option(jdk),
@@ -32,13 +32,14 @@ object Activation {
     )
 }
 
-
 import org.sonatype.maven.polyglot.scala.ScalaPrettyPrinter._
 
 class PrettiedActivation(p: Activation) {
   def asDoc: Doc = {
     val args = scala.collection.mutable.ListBuffer[Doc]()
-    Option(p.activeByDefault).filterNot(_ == false).foreach(abd => args += assign("activeByDefault", abd.toString))
+    Option(p.activeByDefault).filterNot(_ == false).foreach(abd =>
+      args += assign("activeByDefault", abd.toString)
+    )
     p.jdk.foreach(args += assignString("jdk", _))
     p.os.foreach(os => args += assign("os", os.asDoc))
     p.property.foreach(p => args += assign("property", p.asDoc))
@@ -46,7 +47,6 @@ class PrettiedActivation(p: Activation) {
     `object`("Activation", args.toList)
   }
 }
-
 
 import org.sonatype.maven.polyglot.scala.MavenConverters._
 import org.apache.maven.model.{Activation => MavenActivation}

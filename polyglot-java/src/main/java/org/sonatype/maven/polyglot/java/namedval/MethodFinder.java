@@ -1,12 +1,12 @@
 package org.sonatype.maven.polyglot.java.namedval;
 
+import static java.util.Arrays.asList;
+
 import java.io.Serializable;
 import java.lang.invoke.SerializedLambda;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.Objects;
-
-import static java.util.Arrays.asList;
 
 public interface MethodFinder extends Serializable {
     default SerializedLambda serialized() {
@@ -31,8 +31,7 @@ public interface MethodFinder extends Serializable {
     default Method method() {
         SerializedLambda lambda = serialized();
         Class<?> containingClass = getContainingClass();
-        return asList(containingClass.getDeclaredMethods())
-                .stream()
+        return asList(containingClass.getDeclaredMethods()).stream()
                 .filter(method -> Objects.equals(method.getName(), lambda.getImplMethodName()))
                 .findFirst()
                 .orElseThrow(UnableToGuessMethodException::new);

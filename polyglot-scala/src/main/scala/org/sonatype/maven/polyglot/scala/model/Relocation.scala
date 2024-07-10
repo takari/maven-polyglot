@@ -8,19 +8,19 @@
 package org.sonatype.maven.polyglot.scala.model
 
 class Relocation(
-                  val groupId: Option[String],
-                  val artifactId: Option[String],
-                  val version: Option[String],
-                  val message: Option[String]
-                  )
+    val groupId: Option[String],
+    val artifactId: Option[String],
+    val version: Option[String],
+    val message: Option[String]
+)
 
 object Relocation {
   def apply(
-             groupId: String = null,
-             artifactId: String = null,
-             version: String = null,
-             message: String = null
-             ): Relocation =
+      groupId: String = null,
+      artifactId: String = null,
+      version: String = null,
+      message: String = null
+  ): Relocation =
     new Relocation(
       Option(groupId),
       Option(artifactId),
@@ -28,7 +28,6 @@ object Relocation {
       Option(message)
     )
 }
-
 
 import org.sonatype.maven.polyglot.scala.ScalaPrettyPrinter._
 
@@ -42,7 +41,6 @@ class PrettiedRelocation(r: Relocation) {
     `object`("Relocation", args.toList)
   }
 }
-
 
 import org.apache.maven.model.{Relocation => MavenRelocation}
 

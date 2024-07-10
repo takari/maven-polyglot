@@ -8,17 +8,17 @@
 package org.sonatype.maven.polyglot.scala.model
 
 class RepositoryPolicy(
-                        val enabled: Boolean,
-                        val updatePolicy: String,
-                        val checksumPolicy: String
-                        )
+    val enabled: Boolean,
+    val updatePolicy: String,
+    val checksumPolicy: String
+)
 
 object RepositoryPolicy {
   def apply(
-             enabled: Boolean,
-             updatePolicy: String = "daily",
-             checksumPolicy: String = "warn"
-             ) =
+      enabled: Boolean,
+      updatePolicy: String = "daily",
+      checksumPolicy: String = "warn"
+  ) =
     new RepositoryPolicy(
       enabled,
       updatePolicy,
@@ -37,7 +37,6 @@ class PrettiedRepositoryPolicy(rp: RepositoryPolicy) {
     `object`("RepositoryPolicy", args.toList)
   }
 }
-
 
 import org.apache.maven.model.{RepositoryPolicy => MavenRepositoryPolicy}
 

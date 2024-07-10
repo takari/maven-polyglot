@@ -42,9 +42,9 @@ import scala.language.postfixOps
  *   </extraOptions>
  * </configuration>
  * }}}
- *
  */
 class Config(val elements: immutable.Seq[(String, Option[Any])]) {
+
   /**
    * Returns a new Config with contains the elements of this and the other config.
    */
@@ -62,7 +62,8 @@ object Config extends Dynamic {
 
   def applyDynamicNamed(method: String)(params: (String, Any)*): Config =
     if (method == "apply") new Config(params map {
-      case (k, Optional(v)) if k.startsWith("$at") && k.size > 3 => s"@${sanitizeElementName(k.substring(3))}" -> v
+      case (k, Optional(v)) if k.startsWith("$at") && k.size > 3 =>
+        s"@${sanitizeElementName(k.substring(3))}" -> v
       case (k, Optional(v)) => sanitizeElementName(k) -> v
     } toList)
     else throw new UnsupportedOperationException
@@ -86,7 +87,9 @@ object Config extends Dynamic {
   def sanitizeElementName(k: String): String = {
     val r = elementStartCharMapping.foldLeft(k)((k, m) => m._1.replaceAllIn(k, found => m._2))
     if (r.length() > 1) {
-      r.substring(0, 1) + elementCharMapping.foldLeft(r.substring(1))((k, m) => m._1.replaceAllIn(k, found => m._2))
+      r.substring(0, 1) + elementCharMapping.foldLeft(r.substring(1))((k, m) =>
+        m._1.replaceAllIn(k, found => m._2)
+      )
     } else r
   }
 }

@@ -8,7 +8,6 @@
 package org.sonatype.maven.polyglot.groovy.builder.factory;
 
 import groovy.util.FactoryBuilderSupport;
-
 import java.util.Map;
 
 /**
@@ -19,14 +18,15 @@ import java.util.Map;
  * @since 0.7
  */
 public class ChildFactory extends NamedFactory {
-  private final Class type;
+    private final Class type;
 
-  public ChildFactory(final String name, final Class type) {
-    super(name);
-    this.type = type;
-  }
+    public ChildFactory(final String name, final Class type) {
+        super(name);
+        this.type = type;
+    }
 
-  public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attrs) throws InstantiationException, IllegalAccessException {
-    return type.newInstance();
-  }
+    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attrs)
+            throws InstantiationException, IllegalAccessException {
+        return type.newInstance();
+    }
 }

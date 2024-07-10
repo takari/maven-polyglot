@@ -11,7 +11,43 @@ import java.io.Writer
 import java.util
 import org.sonatype.maven.polyglot.io.ModelWriterSupport
 import org.bitbucket.inkytonik.kiama.output.PrettyPrinter
-import org.apache.maven.model.{ Activation => MavenActivation, ActivationFile => MavenActivationFile, ActivationOS => MavenActivationOS, ActivationProperty => MavenActivationProperty, Build => MavenBuild, BuildBase => MavenBuildBase, CiManagement => MavenCiManagement, Contributor => MavenContributor, DependencyManagement => MavenDependencyManagement, Dependency => MavenDependency, DeploymentRepository => MavenDeploymentRepository, Developer => MavenDeveloper, DistributionManagement => MavenDistributionManagement, PluginExecution => MavenExecution, Extension => MavenExtension, IssueManagement => MavenIssueManagement, License => MavenLicense, MailingList => MavenMailingList, Model => MavenModel, Notifier => MavenNotifier, Organization => MavenOrganization, Parent => MavenParent, Plugin => MavenPlugin, PluginManagement => MavenPluginManagement, Prerequisites => MavenPrerequisites, Profile => MavenProfile, Relocation => MavenRelocation, RepositoryPolicy => MavenRepositoryPolicy, Repository => MavenRepository, Resource => MavenResource, Scm => MavenScm, Site => MavenSite, Reporting => MavenReporting, ReportPlugin => MavenReportPlugin, ReportSet => MavenReportSet }
+import org.apache.maven.model.{
+  Activation => MavenActivation,
+  ActivationFile => MavenActivationFile,
+  ActivationOS => MavenActivationOS,
+  ActivationProperty => MavenActivationProperty,
+  Build => MavenBuild,
+  BuildBase => MavenBuildBase,
+  CiManagement => MavenCiManagement,
+  Contributor => MavenContributor,
+  DependencyManagement => MavenDependencyManagement,
+  Dependency => MavenDependency,
+  DeploymentRepository => MavenDeploymentRepository,
+  Developer => MavenDeveloper,
+  DistributionManagement => MavenDistributionManagement,
+  PluginExecution => MavenExecution,
+  Extension => MavenExtension,
+  IssueManagement => MavenIssueManagement,
+  License => MavenLicense,
+  MailingList => MavenMailingList,
+  Model => MavenModel,
+  Notifier => MavenNotifier,
+  Organization => MavenOrganization,
+  Parent => MavenParent,
+  Plugin => MavenPlugin,
+  PluginManagement => MavenPluginManagement,
+  Prerequisites => MavenPrerequisites,
+  Profile => MavenProfile,
+  Relocation => MavenRelocation,
+  RepositoryPolicy => MavenRepositoryPolicy,
+  Repository => MavenRepository,
+  Resource => MavenResource,
+  Scm => MavenScm,
+  Site => MavenSite,
+  Reporting => MavenReporting,
+  ReportPlugin => MavenReportPlugin,
+  ReportSet => MavenReportSet
+}
 import org.sonatype.maven.polyglot.scala.model._
 import scala.collection.immutable
 import scala.language.implicitConversions
@@ -42,10 +78,14 @@ object ScalaPrettyPrinter extends PrettyPrinter {
   }
 
   def mapStrings(m: Map[String, String]): Doc = {
-    "Map" <> lparen <> nest(lsep(m.map(me => dquotes(me._1) <+> "->" <+> dquotes(me._2)).toSeq, comma)) <@> rparen
+    "Map" <> lparen <> nest(lsep(
+      m.map(me => dquotes(me._1) <+> "->" <+> dquotes(me._2)).toSeq,
+      comma
+    )) <@> rparen
   }
 
-  def seqString(s: immutable.Seq[String]): Doc = "Seq" <> lparen <> nest(lsep(s.map(dquotes(_)), comma)) <@> rparen
+  def seqString(s: immutable.Seq[String]): Doc =
+    "Seq" <> lparen <> nest(lsep(s.map(dquotes(_)), comma)) <@> rparen
 
   def seq(s: immutable.Seq[Doc]): Doc = "Seq" <> lparen <> nest(lsep(s, comma)) <@> rparen
 
@@ -79,7 +119,8 @@ object ScalaPrettyPrinter extends PrettyPrinter {
   implicit def enrichPrettiedConfig(v: Config): PrettiedConfig =
     new PrettiedConfig(v)
 
-  implicit def enrichPrettiedConfigurationContainer(v: ConfigurationContainer): PrettiedConfigurationContainer =
+  implicit def enrichPrettiedConfigurationContainer(v: ConfigurationContainer)
+      : PrettiedConfigurationContainer =
     new PrettiedConfigurationContainer(v)
 
   implicit def enrichPrettiedContributor(v: Contributor): PrettiedContributor =
@@ -88,16 +129,19 @@ object ScalaPrettyPrinter extends PrettyPrinter {
   implicit def enrichPrettiedDependency(v: Dependency): PrettiedDependency =
     new PrettiedDependency(v)
 
-  implicit def enrichPrettiedDependencyManagement(v: DependencyManagement): PrettiedDependencyManagement =
+  implicit def enrichPrettiedDependencyManagement(v: DependencyManagement)
+      : PrettiedDependencyManagement =
     new PrettiedDependencyManagement(v)
 
-  implicit def enrichPrettiedDeploymentRepository(v: DeploymentRepository): PrettiedDeploymentRepository =
+  implicit def enrichPrettiedDeploymentRepository(v: DeploymentRepository)
+      : PrettiedDeploymentRepository =
     new PrettiedDeploymentRepository(v)
 
   implicit def enrichPrettiedDeveloper(v: Developer): PrettiedDeveloper =
     new PrettiedDeveloper(v)
 
-  implicit def enrichPrettiedDistributionManagement(v: DistributionManagement): PrettiedDistributionManagement =
+  implicit def enrichPrettiedDistributionManagement(v: DistributionManagement)
+      : PrettiedDistributionManagement =
     new PrettiedDistributionManagement(v)
 
   implicit def enrichPrettiedExecution(v: Execution): PrettiedExecution =
@@ -193,13 +237,15 @@ object MavenConverters {
   implicit def enrichConvertibleActivation(v: MavenActivation): ConvertibleMavenActivation =
     new ConvertibleMavenActivation(v)
 
-  implicit def enrichConvertibleActivationFile(v: MavenActivationFile): ConvertibleMavenActivationFile =
+  implicit def enrichConvertibleActivationFile(v: MavenActivationFile)
+      : ConvertibleMavenActivationFile =
     new ConvertibleMavenActivationFile(v)
 
   implicit def enrichConvertibleActivationOS(v: MavenActivationOS): ConvertibleMavenActivationOS =
     new ConvertibleMavenActivationOS(v)
 
-  implicit def enrichConvertibleActivationProperty(v: MavenActivationProperty): ConvertibleMavenActivationProperty =
+  implicit def enrichConvertibleActivationProperty(v: MavenActivationProperty)
+      : ConvertibleMavenActivationProperty =
     new ConvertibleMavenActivationProperty(v)
 
   implicit def enrichConvertibleBuild(v: MavenBuild): ConvertibleMavenBuild =
@@ -220,16 +266,19 @@ object MavenConverters {
   implicit def enrichConvertibleDependency(v: MavenDependency): ConvertibleMavenDependency =
     new ConvertibleMavenDependency(v)
 
-  implicit def enrichConvertibleDependencyManagement(v: MavenDependencyManagement): ConvertibleMavenDependencyManagement =
+  implicit def enrichConvertibleDependencyManagement(v: MavenDependencyManagement)
+      : ConvertibleMavenDependencyManagement =
     new ConvertibleMavenDependencyManagement(v)
 
-  implicit def enrichConvertibleDeploymentRepository(v: MavenDeploymentRepository): ConvertibleMavenDeploymentRepository =
+  implicit def enrichConvertibleDeploymentRepository(v: MavenDeploymentRepository)
+      : ConvertibleMavenDeploymentRepository =
     new ConvertibleMavenDeploymentRepository(v)
 
   implicit def enrichConvertibleDeveloper(v: MavenDeveloper): ConvertibleMavenDeveloper =
     new ConvertibleMavenDeveloper(v)
 
-  implicit def enrichConvertibleDistributionManagement(v: MavenDistributionManagement): ConvertibleMavenDistributionManagement =
+  implicit def enrichConvertibleDistributionManagement(v: MavenDistributionManagement)
+      : ConvertibleMavenDistributionManagement =
     new ConvertibleMavenDistributionManagement(v)
 
   implicit def enrichConvertibleExecution(v: MavenExecution): ConvertibleMavenExecution =
@@ -241,10 +290,12 @@ object MavenConverters {
   implicit def enrichConvertibleGav(v: (String, String, String)): ConvertibleMavenGav =
     new ConvertibleMavenGav(v)
 
-  implicit def enrichConvertibleGroupArtifactId(v: (String, String)): ConvertibleMavenGroupArtifactId =
+  implicit def enrichConvertibleGroupArtifactId(v: (String, String))
+      : ConvertibleMavenGroupArtifactId =
     new ConvertibleMavenGroupArtifactId(v)
 
-  implicit def enrichConvertibleIssueManagement(v: MavenIssueManagement): ConvertibleMavenIssueManagement =
+  implicit def enrichConvertibleIssueManagement(v: MavenIssueManagement)
+      : ConvertibleMavenIssueManagement =
     new ConvertibleMavenIssueManagement(v)
 
   implicit def enrichConvertibleLicense(v: MavenLicense): ConvertibleMavenLicense =
@@ -268,10 +319,12 @@ object MavenConverters {
   implicit def enrichConvertiblePlugin(v: MavenPlugin): ConvertibleMavenPlugin =
     new ConvertibleMavenPlugin(v)
 
-  implicit def enrichConvertiblePluginManagement(v: MavenPluginManagement): ConvertibleMavenPluginManagement =
+  implicit def enrichConvertiblePluginManagement(v: MavenPluginManagement)
+      : ConvertibleMavenPluginManagement =
     new ConvertibleMavenPluginManagement(v)
 
-  implicit def enrichConvertiblePrerequisites(v: MavenPrerequisites): ConvertibleMavenPrerequisites =
+  implicit def enrichConvertiblePrerequisites(v: MavenPrerequisites)
+      : ConvertibleMavenPrerequisites =
     new ConvertibleMavenPrerequisites(v)
 
   implicit def enrichConvertibleProfile(v: MavenProfile): ConvertibleMavenProfile =
@@ -280,7 +333,8 @@ object MavenConverters {
   implicit def enrichConvertibleRelocation(v: MavenRelocation): ConvertibleMavenRelocation =
     new ConvertibleMavenRelocation(v)
 
-  implicit def enrichConvertibleRepositoryPolicy(v: MavenRepositoryPolicy): ConvertibleMavenRepositoryPolicy =
+  implicit def enrichConvertibleRepositoryPolicy(v: MavenRepositoryPolicy)
+      : ConvertibleMavenRepositoryPolicy =
     new ConvertibleMavenRepositoryPolicy(v)
 
   implicit def enrichConvertibleRepository(v: MavenRepository): ConvertibleMavenRepository =

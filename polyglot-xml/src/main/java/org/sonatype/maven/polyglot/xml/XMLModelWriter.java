@@ -7,13 +7,11 @@
  */
 package org.sonatype.maven.polyglot.xml;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Map;
-
+import javax.inject.Named;
+import javax.inject.Singleton;
 import org.apache.maven.model.Model;
 import org.sonatype.maven.polyglot.io.ModelWriterSupport;
 import org.sonatype.maven.polyglot.xml.xpp3.PolyglotMavenXpp3Writer;
@@ -23,17 +21,17 @@ import org.sonatype.maven.polyglot.xml.xpp3.PolyglotMavenXpp3Writer;
  *
  */
 @Singleton
-@Named( "xml41" )
+@Named("xml41")
 public class XMLModelWriter extends ModelWriterSupport {
-	
-	PolyglotMavenXpp3Writer writer;
-	
-	public XMLModelWriter() {
-		writer = new PolyglotMavenXpp3Writer();
-	}
 
-	public void write(Writer output, Map<String, Object> o, Model model) throws IOException {
+    PolyglotMavenXpp3Writer writer;
 
-		writer.write(output, model);
-	}
+    public XMLModelWriter() {
+        writer = new PolyglotMavenXpp3Writer();
+    }
+
+    public void write(Writer output, Map<String, Object> o, Model model) throws IOException {
+
+        writer.write(output, model);
+    }
 }

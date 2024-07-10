@@ -8,15 +8,11 @@
 package org.sonatype.maven.polyglot.ruby;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Map;
-
 import org.apache.maven.model.Model;
 import org.jruby.embed.IsolatedScriptingContainer;
 import org.jruby.embed.PathType;
-
 import org.sonatype.maven.polyglot.execute.ExecuteManager;
 import org.sonatype.maven.polyglot.ruby.execute.RubyExecuteTaskFactory;
 
@@ -35,26 +31,23 @@ public class RubyParser {
 
     private final RubyExecuteTaskFactory factory;
 
-    public RubyParser( ExecuteManager executeManager ) throws IOException
-    {
+    public RubyParser(ExecuteManager executeManager) throws IOException {
         this.executeManager = executeManager;
         this.jruby = new IsolatedScriptingContainer();
-        this.parser = jruby.runScriptlet( PathType.CLASSPATH, "parser.rb" );
-        this.factory = new RubyExecuteTaskFactory( jruby );
+        this.parser = jruby.runScriptlet(PathType.CLASSPATH, "parser.rb");
+        this.factory = new RubyExecuteTaskFactory(jruby);
     }
 
     // synchronize it since it is not clear how threadsafe everything is
-    public synchronized Model parse( String ruby, File source, Map<String, ?> options )
-    {
-        Model model = this.jruby.callMethod( this.parser,
-                    "parse",
-                    new Object[] { ruby,
-                                   this.factory,
-                                   source != null ? source.getAbsolutePath() : null },
-                    Model.class );
-        model.setPomFile( source );
-        executeManager.register( model, this.factory.getExecuteTasks() );
-        executeManager.install( model, options );
+    public synchronized Model parse(String ruby, File source, Map<String, ?> options) {
+        Model model = this.jruby.callMethod(
+                this.parser,
+                "parse",
+                new Object[] {ruby, this.factory, source != null ? source.getAbsolutePath() : null},
+                Model.class);
+        model.setPomFile(source);
+        executeManager.register(model, this.factory.getExecuteTasks());
+        executeManager.install(model, options);
         return model;
     }
 }

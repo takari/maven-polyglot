@@ -8,23 +8,23 @@
 package org.sonatype.maven.polyglot.scala.model
 
 class Repository(
-                  val releases: Option[RepositoryPolicy],
-                  val snapshots: Option[RepositoryPolicy],
-                  val id: Option[String],
-                  val name: Option[String],
-                  val url: Option[String],
-                  val layout: String
-                  )
+    val releases: Option[RepositoryPolicy],
+    val snapshots: Option[RepositoryPolicy],
+    val id: Option[String],
+    val name: Option[String],
+    val url: Option[String],
+    val layout: String
+)
 
 object Repository {
   def apply(
-             releases: RepositoryPolicy = null,
-             snapshots: RepositoryPolicy = null,
-             id: String = null,
-             name: String = null,
-             url: String = null,
-             layout: String = "default"
-             ) =
+      releases: RepositoryPolicy = null,
+      snapshots: RepositoryPolicy = null,
+      id: String = null,
+      name: String = null,
+      url: String = null,
+      layout: String = "default"
+  ) =
     new Repository(
       Option(releases),
       Option(snapshots),
@@ -53,7 +53,6 @@ class PrettiedRepository(r: Repository) {
     args.toList
   }
 }
-
 
 import org.sonatype.maven.polyglot.scala.MavenConverters._
 import org.apache.maven.model.{Repository => MavenRepository}

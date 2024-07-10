@@ -7,13 +7,11 @@
  */
 package org.sonatype.maven.polyglot.java;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Map;
-
+import javax.inject.Named;
+import javax.inject.Singleton;
 import org.apache.maven.model.Model;
 import org.sonatype.maven.polyglot.io.ModelWriterSupport;
 import org.sonatype.maven.polyglot.java.writer.ModelToJavaWriter;
@@ -23,16 +21,15 @@ import org.sonatype.maven.polyglot.java.writer.ModelToJavaWriter;
  *
  */
 @Singleton
-@Named( "java" )
+@Named("java")
 public class JavaModelWriter extends ModelWriterSupport {
-	
-	public JavaModelWriter() {
-	}
 
-	public void write(Writer output, Map<String, Object> o, Model model) throws IOException {
-		
-		ModelToJavaWriter toJavaWriter = new ModelToJavaWriter(output, model);
-		toJavaWriter.write();
-		output.flush();
-	}
+    public JavaModelWriter() {}
+
+    public void write(Writer output, Map<String, Object> o, Model model) throws IOException {
+
+        ModelToJavaWriter toJavaWriter = new ModelToJavaWriter(output, model);
+        toJavaWriter.write();
+        output.flush();
+    }
 }

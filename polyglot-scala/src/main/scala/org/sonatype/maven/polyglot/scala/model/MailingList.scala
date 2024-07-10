@@ -10,23 +10,23 @@ package org.sonatype.maven.polyglot.scala.model
 import scala.collection.immutable
 
 class MailingList(
-                   val name: Option[String],
-                   val subscribe: Option[String],
-                   val unsubscribe: Option[String],
-                   val post: Option[String],
-                   val archive: Option[String],
-                   val otherArchives: immutable.Seq[String]
-                   )
+    val name: Option[String],
+    val subscribe: Option[String],
+    val unsubscribe: Option[String],
+    val post: Option[String],
+    val archive: Option[String],
+    val otherArchives: immutable.Seq[String]
+)
 
 object MailingList {
   def apply(
-             name: String = null,
-             subscribe: String = null,
-             unsubscribe: String = null,
-             post: String = null,
-             archive: String = null,
-             otherArchives: immutable.Seq[String] = Nil
-             ): MailingList =
+      name: String = null,
+      subscribe: String = null,
+      unsubscribe: String = null,
+      post: String = null,
+      archive: String = null,
+      otherArchives: immutable.Seq[String] = Nil
+  ): MailingList =
     new MailingList(
       Option(name),
       Option(subscribe),
@@ -47,11 +47,12 @@ class PrettiedMailingList(ml: MailingList) {
     ml.unsubscribe.foreach(args += assignString("unsubscribe", _))
     ml.post.foreach(args += assignString("post", _))
     ml.archive.foreach(args += assignString("archive", _))
-    Some(ml.otherArchives).filterNot(_.isEmpty).foreach(ds => args += assign("otherArchives", seqString(ds)))
+    Some(ml.otherArchives).filterNot(_.isEmpty).foreach(ds =>
+      args += assign("otherArchives", seqString(ds))
+    )
     `object`("MailingList", args.toList)
   }
 }
-
 
 import org.apache.maven.model.{MailingList => MavenMailingList}
 import scala.jdk.CollectionConverters._

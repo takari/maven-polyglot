@@ -22,6 +22,14 @@
   <packaging>takari-maven-component</packaging>
   <name>Polyglot :: Kotlin</name>
 
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <kotlin.version>2.0.0</kotlin.version>
+    <commons-lang3.version>3.8.1</commons-lang3.version>
+    <skipTests>false</skipTests>
+    <invoker.skip>${skipTests}</invoker.skip>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>io.takari.polyglot</groupId>
@@ -58,6 +66,10 @@
       <artifactId>kotlin-script-runtime</artifactId>
       <version>${kotlin.version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+    </dependency>
 
     <!-- Test -->
     <dependency>
@@ -84,17 +96,7 @@
     </dependency>
   </dependencies>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <kotlin.version>2.0.0</kotlin.version>
-    <commons-lang3.version>3.8.1</commons-lang3.version>
-    <skipTests>false</skipTests>
-    <invoker.skip>${skipTests}</invoker.skip>
-  </properties>
-
   <build>
-    <sourceDirectory>src/main/kotlin</sourceDirectory>
-    <testSourceDirectory>src/test/kotlin</testSourceDirectory>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -116,7 +118,9 @@
               <showErrors>true</showErrors>
               <debug>false</debug>
               <streamLogs>true</streamLogs>
-              <goals><goal>verify</goal></goals>
+              <goals>
+                <goal>verify</goal>
+              </goals>
             </configuration>
           </execution>
         </executions>
@@ -128,17 +132,17 @@
         <executions>
           <execution>
             <id>compile</id>
-            <phase>process-sources</phase>
             <goals>
               <goal>compile</goal>
             </goals>
+            <phase>process-sources</phase>
           </execution>
           <execution>
             <id>test-compile</id>
-            <phase>process-test-sources</phase>
             <goals>
               <goal>test-compile</goal>
             </goals>
+            <phase>process-test-sources</phase>
           </execution>
         </executions>
       </plugin>
@@ -146,14 +150,6 @@
         <groupId>com.google.code.maven-replacer-plugin</groupId>
         <artifactId>replacer</artifactId>
         <version>1.5.3</version>
-        <executions>
-          <execution>
-            <phase>test-compile</phase>
-            <goals>
-              <goal>replace</goal>
-            </goals>
-          </execution>
-        </executions>
         <configuration>
           <basedir>${project.build.testOutputDirectory}</basedir>
           <includes>**/pom.xml</includes>
@@ -162,8 +158,27 @@
           <token>takari-polyglot-version</token>
           <value>${project.version}</value>
         </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>replace</goal>
+            </goals>
+            <phase>test-compile</phase>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>com.diffplug.spotless</groupId>
+        <artifactId>spotless-maven-plugin</artifactId>
+        <configuration>
+          <kotlin>
+            <ktfmt />
+          </kotlin>
+        </configuration>
       </plugin>
     </plugins>
+    <sourceDirectory>src/main/kotlin</sourceDirectory>
+    <testSourceDirectory>src/test/kotlin</testSourceDirectory>
   </build>
 
 </project>

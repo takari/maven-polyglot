@@ -8,25 +8,25 @@
 package org.sonatype.maven.polyglot.scala.model
 
 class Notifier(
-                val address: Option[String],
-                val configuration: Map[String, String],
-                val sendOnError: Boolean,
-                val sendOnFailure: Boolean,
-                val sendOnSuccess: Boolean,
-                val sendOnWarning: Boolean,
-                val `type`: String
-                )
+    val address: Option[String],
+    val configuration: Map[String, String],
+    val sendOnError: Boolean,
+    val sendOnFailure: Boolean,
+    val sendOnSuccess: Boolean,
+    val sendOnWarning: Boolean,
+    val `type`: String
+)
 
 object Notifier {
   def apply(
-             address: String = null,
-             configuration: Map[String, String] = Map.empty,
-             sendOnError: Boolean = true,
-             sendOnFailure: Boolean = true,
-             sendOnSuccess: Boolean = true,
-             sendOnWarning: Boolean = true,
-             `type`: String = "mail"
-             ) =
+      address: String = null,
+      configuration: Map[String, String] = Map.empty,
+      sendOnError: Boolean = true,
+      sendOnFailure: Boolean = true,
+      sendOnSuccess: Boolean = true,
+      sendOnWarning: Boolean = true,
+      `type`: String = "mail"
+  ) =
     new Notifier(
       Option(address),
       configuration,
@@ -38,23 +38,29 @@ object Notifier {
     )
 }
 
-
 import org.sonatype.maven.polyglot.scala.ScalaPrettyPrinter._
 
 class PrettiedNotifier(n: Notifier) {
   def asDoc: Doc = {
     val args = scala.collection.mutable.ListBuffer[Doc]()
     n.address.foreach(args += assignString("address", _))
-    Some(n.configuration).filterNot(_.isEmpty).foreach(c => args += assign("configuration", c.asDoc))
+    Some(n.configuration).filterNot(_.isEmpty).foreach(c =>
+      args += assign("configuration", c.asDoc)
+    )
     Some(n.sendOnError).filterNot(_ == true).foreach(e => args += assign("sendOnError", e.toString))
-    Some(n.sendOnFailure).filterNot(_ == true).foreach(e => args += assign("sendOnFailure", e.toString))
-    Some(n.sendOnSuccess).filterNot(_ == true).foreach(e => args += assign("sendOnSuccess", e.toString))
-    Some(n.sendOnWarning).filterNot(_ == true).foreach(e => args += assign("sendOnWarning", e.toString))
+    Some(n.sendOnFailure).filterNot(_ == true).foreach(e =>
+      args += assign("sendOnFailure", e.toString)
+    )
+    Some(n.sendOnSuccess).filterNot(_ == true).foreach(e =>
+      args += assign("sendOnSuccess", e.toString)
+    )
+    Some(n.sendOnWarning).filterNot(_ == true).foreach(e =>
+      args += assign("sendOnWarning", e.toString)
+    )
     Some(n.`type`).filterNot(_ == "mail").foreach(args += assignString("`type`", _))
     `object`("Notifier", args.toList)
   }
 }
-
 
 import scala.jdk.CollectionConverters._
 import org.apache.maven.model.{Notifier => MavenNotifier}
@@ -80,9 +86,9 @@ class ConvertibleScalaNotifier(n: Notifier) {
     val mn = new MavenNotifier
     mn.setAddress(n.address.orNull)
     mn.setConfiguration(Option(n.configuration).map { c =>
-        val p = new Properties
-        c.foreach { case (k, v) => p.setProperty(k, v) }
-        p
+      val p = new Properties
+      c.foreach { case (k, v) => p.setProperty(k, v) }
+      p
     }.orNull[Properties])
     mn.setSendOnError(n.sendOnError)
     mn.setSendOnFailure(n.sendOnFailure)

@@ -104,7 +104,6 @@ class ConfigSpec extends Specification {
       e(2)._2.get.asInstanceOf[String] must_== "attrValue4"
     }
 
-
     // the attribute marker
     s"should permit `@` char in element name via dynamic apply" in {
       Config(`@Key@` = "value").elements.head._1 must_== "@Key$at"

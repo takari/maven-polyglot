@@ -7,17 +7,16 @@
  */
 package org.sonatype.maven.polyglot.yaml;
 
-import org.apache.maven.model.Dependency;
 import org.apache.maven.model.ReportPlugin;
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 
 public class ConstructReportPlugin extends AbstractConstruct {
-  @Override
-  public Object construct(Node node) {
-    ScalarNode scalar = (ScalarNode) node;
-    Coordinate coord = Coordinate.createCoordinate(scalar.getValue());
-    return coord.mergeReportPlugin(new ReportPlugin());
-  }
+    @Override
+    public Object construct(Node node) {
+        ScalarNode scalar = (ScalarNode) node;
+        Coordinate coord = Coordinate.createCoordinate(scalar.getValue());
+        return coord.mergeReportPlugin(new ReportPlugin());
+    }
 }

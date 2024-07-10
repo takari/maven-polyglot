@@ -10,9 +10,7 @@ package org.sonatype.maven.polyglot.clojure;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
-
 import junit.framework.TestCase;
-
 import org.apache.maven.model.Dependency;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.Plugin;
@@ -25,8 +23,7 @@ import org.junit.Test;
  *
  * @author <a href="mailto:mark@derricutt.com">Mark Derricutt</a>
  */
-public class ClojureModelReaderTest extends TestCase
-{
+public class ClojureModelReaderTest extends TestCase {
     @Test
     public void testReading() throws Exception {
         Model model = readClojureModel("test1.clj");
@@ -36,7 +33,7 @@ public class ClojureModelReaderTest extends TestCase
 
         assertEquals("UTF-8", model.getModelEncoding());
         assertEquals("jar", model.getPackaging());
-//        assertEquals("4.0.0", model.getModelVersion());
+        //        assertEquals("4.0.0", model.getModelVersion());
         assertEquals("a", model.getGroupId());
         assertEquals("b", model.getArtifactId());
         assertEquals("c", model.getVersion());
@@ -96,7 +93,7 @@ public class ClojureModelReaderTest extends TestCase
         URL input = getClass().getResource(sourceFile);
         assertNotNull(input);
 
-        Map<String,Object> options = new HashMap<String,Object>();
+        Map<String, Object> options = new HashMap<String, Object>();
         options.put(ModelProcessor.SOURCE, input);
         return reader.read(input.openStream(), options);
     }

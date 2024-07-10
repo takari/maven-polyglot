@@ -21,15 +21,19 @@ import java.util
 class PrettiedDependencyManagement(dm: DependencyManagement) {
   def asDoc: Doc = {
     val args = scala.collection.mutable.ListBuffer[Doc]()
-    Some(dm.dependencies).filterNot(_.isEmpty).foreach(ps => args += assign("dependencies", seq(ps.map(_.asDoc))))
+    Some(dm.dependencies).filterNot(_.isEmpty).foreach(ps =>
+      args += assign("dependencies", seq(ps.map(_.asDoc)))
+    )
     `object`("DependencyManagement", args.toList)
   }
 }
 
-
 import org.sonatype.maven.polyglot.scala.MavenConverters._
 import scala.jdk.CollectionConverters._
-import org.apache.maven.model.{Dependency => MavenDependency, DependencyManagement => MavenDependencyManagement}
+import org.apache.maven.model.{
+  Dependency => MavenDependency,
+  DependencyManagement => MavenDependencyManagement
+}
 
 class ConvertibleMavenDependencyManagement(mdm: MavenDependencyManagement) {
   def asScala: DependencyManagement = {

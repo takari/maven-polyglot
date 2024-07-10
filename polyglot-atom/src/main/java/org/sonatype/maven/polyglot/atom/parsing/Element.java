@@ -12,5 +12,4 @@ package org.sonatype.maven.polyglot.atom.parsing;
  *
  * @author dhanji@gmail.com (Dhanji R. Prasanna)
  */
-abstract class Element {
-}
+abstract class Element {}

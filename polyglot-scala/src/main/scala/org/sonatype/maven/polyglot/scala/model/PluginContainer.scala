@@ -11,13 +11,14 @@ import scala.collection.immutable
 
 abstract class PluginContainer(val plugins: immutable.Seq[Plugin])
 
-
 import org.sonatype.maven.polyglot.scala.ScalaPrettyPrinter._
 
 class PrettiedPluginContainer(pc: PluginContainer) {
   def asDocArgs: immutable.Seq[Doc] = {
     val args = scala.collection.mutable.ListBuffer[Doc]()
-    Some(pc.plugins).filterNot(_.isEmpty).foreach(ps => args += assign("plugins", seq(ps.map(_.asDoc))))
+    Some(pc.plugins).filterNot(_.isEmpty).foreach(ps =>
+      args += assign("plugins", seq(ps.map(_.asDoc)))
+    )
     args.toList
   }
 }

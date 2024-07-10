@@ -8,7 +8,6 @@
 package org.sonatype.maven.polyglot.groovy.builder.factory;
 
 import groovy.util.FactoryBuilderSupport;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -21,42 +20,43 @@ import java.util.Map;
  * @since 0.7
  */
 public class ModulesFactory extends ListFactory {
-  public ModulesFactory() {
-    super("modules");
-  }
-
-  @Override
-  public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attrs) throws InstantiationException, IllegalAccessException {
-    List node;
-
-    if (value != null) {
-      node = parse(value);
-
-      if (node == null) {
-        throw new NodeValueParseException(this, value);
-      }
-    } else {
-      node = new ArrayList();
+    public ModulesFactory() {
+        super("modules");
     }
 
-    return node;
-  }
+    @Override
+    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attrs)
+            throws InstantiationException, IllegalAccessException {
+        List node;
 
-  public static List parse(final Object value) {
-    assert value != null;
+        if (value != null) {
+            node = parse(value);
 
-    List node = new ArrayList();
+            if (node == null) {
+                throw new NodeValueParseException(this, value);
+            }
+        } else {
+            node = new ArrayList();
+        }
 
-    if (value instanceof String) {
-      node.add(value);
-      return node;
-    } else if (value instanceof List) {
-      for (Object item : (List) value) {
-        node.add(String.valueOf(item));
-      }
-      return node;
+        return node;
     }
 
-    return null;
-  }
+    public static List parse(final Object value) {
+        assert value != null;
+
+        List node = new ArrayList();
+
+        if (value instanceof String) {
+            node.add(value);
+            return node;
+        } else if (value instanceof List) {
+            for (Object item : (List) value) {
+                node.add(String.valueOf(item));
+            }
+            return node;
+        }
+
+        return null;
+    }
 }

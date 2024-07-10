@@ -9,7 +9,6 @@ package org.sonatype.maven.polyglot.yaml;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
-
 import org.sonatype.maven.polyglot.mapping.MappingSupport;
 
 /**
@@ -22,11 +21,11 @@ import org.sonatype.maven.polyglot.mapping.MappingSupport;
 @Singleton
 @Named("yaml")
 public class YamlMapping extends MappingSupport {
-  public YamlMapping() {
-    super("yaml");
-    setPomNames("pom.yaml", "pom.yml");
-    setAcceptLocationExtensions(".yaml", ".yml");
-    setAcceptOptionKeys("yaml:4.0.0");
-    setPriority(1);
-  }
+    public YamlMapping() {
+        super("yaml");
+        setPomNames("pom.yaml", "pom.yml");
+        setAcceptLocationExtensions(".yaml", ".yml");
+        setAcceptOptionKeys("yaml:4.0.0");
+        setPriority(1);
+    }
 }

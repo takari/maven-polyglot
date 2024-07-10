@@ -8,9 +8,9 @@
 package org.sonatype.maven.polyglot.scala.model
 
 abstract class ConfigurationContainer(
-                                       val inherited: Boolean,
-                                       val configuration: Option[Config]
-                                       )
+    val inherited: Boolean,
+    val configuration: Option[Config]
+)
 
 import org.sonatype.maven.polyglot.scala.ScalaPrettyPrinter._
 

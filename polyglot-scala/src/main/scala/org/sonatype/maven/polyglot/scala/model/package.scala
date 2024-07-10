@@ -32,7 +32,8 @@ package object model {
   /**
    * Produce a dependency from a GroupArtifactId when required.
    */
-  implicit def toDependency(groupArtifactId: GroupArtifactId): Dependency = Dependency(Gav(groupArtifactId, None))
+  implicit def toDependency(groupArtifactId: GroupArtifactId): Dependency =
+    Dependency(Gav(groupArtifactId, None))
 
   /**
    * Produce a Gav where we just have a group and artifact.

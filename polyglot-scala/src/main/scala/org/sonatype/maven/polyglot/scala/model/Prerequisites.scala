@@ -23,7 +23,6 @@ class PrettiedPrerequisites(ps: Prerequisites) {
   }
 }
 
-
 import org.apache.maven.model.{Prerequisites => MavenPrerequisites}
 
 class ConvertibleMavenPrerequisites(mps: MavenPrerequisites) {

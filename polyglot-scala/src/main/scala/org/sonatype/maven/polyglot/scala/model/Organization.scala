@@ -8,15 +8,15 @@
 package org.sonatype.maven.polyglot.scala.model
 
 class Organization(
-                    val name: Option[String],
-                    val url: Option[String]
-                    )
+    val name: Option[String],
+    val url: Option[String]
+)
 
 object Organization {
   def apply(
-             name: String = null,
-             url: String = null
-             ): Organization =
+      name: String = null,
+      url: String = null
+  ): Organization =
     new Organization(
       Option(name),
       Option(url)
@@ -33,7 +33,6 @@ class PrettiedOrganization(im: Organization) {
     `object`("Organization", args.toList)
   }
 }
-
 
 import org.apache.maven.model.{Organization => MavenOrganization}
 

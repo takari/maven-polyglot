@@ -42,10 +42,10 @@ public class RubyExecuteTask extends ExecuteTaskSupport {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "{" +
-            "id='" + getId() + '\'' +
-            ", phase='" + getPhase() + '\'' + 
-            ( getProfileId() == null ? "" : ", profile='" + getProfileId() + '\'' ) +
-            "," + script + "}";
+        return getClass().getSimpleName() + "{" + "id='"
+                + getId() + '\'' + ", phase='"
+                + getPhase() + '\'' + (getProfileId() == null ? "" : ", profile='" + getProfileId() + '\'')
+                + ","
+                + script + "}";
     }
 }

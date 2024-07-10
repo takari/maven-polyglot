@@ -10,38 +10,36 @@ package org.sonatype.maven.polyglot.scala.model
 import scala.collection.immutable
 
 class Profile(
-               val id: String,
-               val activation: Option[Activation],
-               val build: Option[BuildBase],
-               dependencyManagement: Option[DependencyManagement],
-               dependencies: immutable.Seq[Dependency],
-               distributionManagement: Option[DistributionManagement],
-               modules: immutable.Seq[String],
-               pluginRepositories: immutable.Seq[Repository],
-               repositories: immutable.Seq[Repository]
-               )
-  extends
-  ModelBase(
-    dependencyManagement,
-    dependencies,
-    distributionManagement,
-    modules,
-    pluginRepositories,
-    repositories
-  )
+    val id: String,
+    val activation: Option[Activation],
+    val build: Option[BuildBase],
+    dependencyManagement: Option[DependencyManagement],
+    dependencies: immutable.Seq[Dependency],
+    distributionManagement: Option[DistributionManagement],
+    modules: immutable.Seq[String],
+    pluginRepositories: immutable.Seq[Repository],
+    repositories: immutable.Seq[Repository]
+) extends ModelBase(
+      dependencyManagement,
+      dependencies,
+      distributionManagement,
+      modules,
+      pluginRepositories,
+      repositories
+    )
 
 object Profile {
   def apply(
-             id: String = "default",
-             activation: Activation = null,
-             build: BuildBase = null,
-             dependencyManagement: DependencyManagement = null,
-             dependencies: immutable.Seq[Dependency] = Nil,
-             distributionManagement: DistributionManagement = null,
-             modules: immutable.Seq[String] = Nil,
-             pluginRepositories: immutable.Seq[Repository] = Nil,
-             repositories: immutable.Seq[Repository] = Nil
-             ): Profile =
+      id: String = "default",
+      activation: Activation = null,
+      build: BuildBase = null,
+      dependencyManagement: DependencyManagement = null,
+      dependencies: immutable.Seq[Dependency] = Nil,
+      distributionManagement: DistributionManagement = null,
+      modules: immutable.Seq[String] = Nil,
+      pluginRepositories: immutable.Seq[Repository] = Nil,
+      repositories: immutable.Seq[Repository] = Nil
+  ): Profile =
     new Profile(
       id,
       Option(activation),
@@ -55,7 +53,6 @@ object Profile {
     )
 }
 
-
 import org.sonatype.maven.polyglot.scala.ScalaPrettyPrinter._
 
 class PrettiedProfile(p: Profile) {
@@ -68,7 +65,6 @@ class PrettiedProfile(p: Profile) {
     `object`("Profile", args.toList)
   }
 }
-
 
 import org.sonatype.maven.polyglot.scala.MavenConverters._
 import scala.jdk.CollectionConverters._

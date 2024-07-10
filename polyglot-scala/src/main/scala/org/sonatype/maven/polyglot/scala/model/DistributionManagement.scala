@@ -8,23 +8,23 @@
 package org.sonatype.maven.polyglot.scala.model
 
 class DistributionManagement(
-                              val repository: Option[DeploymentRepository],
-                              val snapshotRepository: Option[DeploymentRepository],
-                              val site: Option[Site],
-                              val downloadUrl: Option[String],
-                              val relocation: Option[Relocation],
-                              val status: Option[String]
-                              )
+    val repository: Option[DeploymentRepository],
+    val snapshotRepository: Option[DeploymentRepository],
+    val site: Option[Site],
+    val downloadUrl: Option[String],
+    val relocation: Option[Relocation],
+    val status: Option[String]
+)
 
 object DistributionManagement {
   def apply(
-             repository: DeploymentRepository = null,
-             snapshotRepository: DeploymentRepository = null,
-             site: Site = null,
-             downloadUrl: String = null,
-             relocation: Relocation = null,
-             status: String = null
-             ): DistributionManagement =
+      repository: DeploymentRepository = null,
+      snapshotRepository: DeploymentRepository = null,
+      site: Site = null,
+      downloadUrl: String = null,
+      relocation: Relocation = null,
+      status: String = null
+  ): DistributionManagement =
     new DistributionManagement(
       Option(repository),
       Option(snapshotRepository),
@@ -34,7 +34,6 @@ object DistributionManagement {
       Option(status)
     )
 }
-
 
 import org.sonatype.maven.polyglot.scala.ScalaPrettyPrinter._
 
@@ -50,7 +49,6 @@ class PrettiedDistributionManagement(dm: DistributionManagement) {
     `object`("DistributionManagement", args.toList)
   }
 }
-
 
 import org.sonatype.maven.polyglot.scala.MavenConverters._
 import org.apache.maven.model.{DistributionManagement => MavenDistributionManagement}

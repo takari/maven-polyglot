@@ -29,8 +29,8 @@
   <build>
     <resources>
       <resource>
-        <directory>src/main/resources-filtered</directory>
         <filtering>true</filtering>
+        <directory>src/main/resources-filtered</directory>
       </resource>
     </resources>
   </build>

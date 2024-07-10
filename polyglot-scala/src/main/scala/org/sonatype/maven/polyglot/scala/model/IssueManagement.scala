@@ -8,15 +8,15 @@
 package org.sonatype.maven.polyglot.scala.model
 
 class IssueManagement(
-                       val system: Option[String],
-                       val url: Option[String]
-                       )
+    val system: Option[String],
+    val url: Option[String]
+)
 
 object IssueManagement {
   def apply(
-             system: String = null,
-             url: String = null
-             ): IssueManagement =
+      system: String = null,
+      url: String = null
+  ): IssueManagement =
     new IssueManagement(
       Option(system),
       Option(url)
@@ -33,7 +33,6 @@ class PrettiedIssueManagement(im: IssueManagement) {
     `object`("IssueManagement", args.toList)
   }
 }
-
 
 import org.apache.maven.model.{IssueManagement => MavenIssueManagement}
 

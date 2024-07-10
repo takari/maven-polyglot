@@ -5,73 +5,72 @@
 	and is available at http://www.eclipse.org/legal/epl-v10.html -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>io.takari.polyglot</groupId>
-		<artifactId>polyglot</artifactId>
-		<version>0.7.2-SNAPSHOT</version>
-	</parent>
-	<artifactId>polyglot-xml</artifactId>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>io.takari.polyglot</groupId>
+    <artifactId>polyglot</artifactId>
+    <version>0.7.2-SNAPSHOT</version>
+  </parent>
+  <artifactId>polyglot-xml</artifactId>
   <packaging>takari-maven-component</packaging>
-	<name>Polyglot :: XML</name>
+  <name>Polyglot :: XML</name>
 
-	<dependencies>
-		<dependency>
-			<groupId>io.takari.polyglot</groupId>
-			<artifactId>polyglot-common</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.cedarsoftware</groupId>
-			<artifactId>java-util</artifactId>
-			<version>1.68.0</version>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
+  <dependencies>
+    <dependency>
+      <groupId>io.takari.polyglot</groupId>
+      <artifactId>polyglot-common</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.cedarsoftware</groupId>
+      <artifactId>java-util</artifactId>
+      <version>1.68.0</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
 
-	<!-- 1. Generate sources and xsd by running mvn clean process-resources -P generate-code 
+  <!-- 1. Generate sources and xsd by running mvn clean process-resources -P generate-code 
 	     2. Copy code from /generated-src/java and change package declaration to avoid conflict with same classes in "maven-model" -->
-	<profiles>
-		<profile>
-			<id>generate-code</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.codehaus.modello</groupId>
-						<artifactId>modello-maven-plugin</artifactId>
-						<configuration>
-							<models>
-								<model>src/main/mdo/maven.mdo</model>
-							</models>
-						</configuration>
-						<executions>
-							<execution>
-								<id>java-code</id>
-								<goals>
-									<goal>xpp3-writer</goal>
-									<goal>xpp3-reader</goal>
-								</goals>
-								<configuration>
-									<outputDirectory>${project.basedir}/generated-src/java</outputDirectory>
-									<version>4.1.0</version>
-								</configuration>
-							</execution>
-							<execution>
-								<id>xsd</id>
-								<goals>
-									<goal>xsd</goal>
-								</goals>
-								<configuration>
-									<version>4.1.0</version>
-									<outputDirectory>${project.basedir}/src/main/resources/xsd</outputDirectory>
-									<packageWithVersion>true</packageWithVersion>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
-
+  <profiles>
+    <profile>
+      <id>generate-code</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.modello</groupId>
+            <artifactId>modello-maven-plugin</artifactId>
+            <configuration>
+              <models>
+                <model>src/main/mdo/maven.mdo</model>
+              </models>
+            </configuration>
+            <executions>
+              <execution>
+                <id>java-code</id>
+                <goals>
+                  <goal>xpp3-writer</goal>
+                  <goal>xpp3-reader</goal>
+                </goals>
+                <configuration>
+                  <outputDirectory>${project.basedir}/generated-src/java</outputDirectory>
+                  <version>4.1.0</version>
+                </configuration>
+              </execution>
+              <execution>
+                <id>xsd</id>
+                <goals>
+                  <goal>xsd</goal>
+                </goals>
+                <configuration>
+                  <version>4.1.0</version>
+                  <outputDirectory>${project.basedir}/src/main/resources/xsd</outputDirectory>
+                  <packageWithVersion>true</packageWithVersion>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 
 </project>

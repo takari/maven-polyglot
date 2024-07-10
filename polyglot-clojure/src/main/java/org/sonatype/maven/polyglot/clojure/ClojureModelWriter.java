@@ -7,19 +7,17 @@
  */
 package org.sonatype.maven.polyglot.clojure;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import clojure.lang.Namespace;
 import clojure.lang.RT;
 import clojure.lang.Symbol;
 import clojure.lang.Var;
-import org.apache.maven.model.Model;
-import org.sonatype.maven.polyglot.io.ModelWriterSupport;
-
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Map;
+import javax.inject.Named;
+import javax.inject.Singleton;
+import org.apache.maven.model.Model;
+import org.sonatype.maven.polyglot.io.ModelWriterSupport;
 
 /**
  * Writes a Maven {@link org.apache.maven.model.Model} to a <tt>pom.clj</tt>.
@@ -30,7 +28,7 @@ import java.util.Map;
  * @since 0.7
  */
 @Singleton
-@Named( "clojure" )
+@Named("clojure")
 public class ClojureModelWriter extends ModelWriterSupport {
 
     public void write(Writer writer, Map<String, Object> stringObjectMap, Model model) throws IOException {
@@ -46,5 +44,4 @@ public class ClojureModelWriter extends ModelWriterSupport {
             throw (IOException) new IOException(e.toString()).initCause(e);
         }
     }
-    
 }

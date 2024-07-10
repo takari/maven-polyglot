@@ -10,14 +10,14 @@
   <parent>
     <groupId>io.takari</groupId>
     <artifactId>takari</artifactId>
-    <version>51</version>
+    <version>55</version>
   </parent>
 
   <groupId>io.takari.polyglot</groupId>
   <artifactId>polyglot</artifactId>
   <version>0.7.2-SNAPSHOT</version>
-  <name>Polyglot :: Aggregator</name>
   <packaging>pom</packaging>
+  <name>Polyglot :: Aggregator</name>
 
   <licenses>
     <license>
@@ -26,24 +26,6 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
-
-  <properties>
-    <mavenVersion>3.9.5</mavenVersion>
-    <sisuInjectVersion>0.9.0.M2</sisuInjectVersion>
-    <plexusUtilsVersion>3.5.1</plexusUtilsVersion>
-    <!-- last that works with Java 8: FIXED to this version as long we insist on Java 8 building this project -->
-    <!-- BUT: signArtifacts goal with this version is busted, so we need to use other means to sign -->
-    <takari.lifecycleVersion>2.0.8</takari.lifecycleVersion>
-    <takari.javaSourceVersion>8</takari.javaSourceVersion>
-    <takari.transitiveDependencyReference>ignore</takari.transitiveDependencyReference>
-  </properties>
-
-  <scm>
-    <connection>scm:git:git@github.com:takari/polyglot-maven.git</connection>
-    <developerConnection>scm:git:git@github.com:takari/polyglot-maven.git</developerConnection>
-    <url>https://github.com/takari/polyglot-maven</url>
-    <tag>HEAD</tag>
-  </scm>
 
   <modules>
     <module>polyglot-common</module>
@@ -59,6 +41,24 @@
     <module>polyglot-maven-plugin</module>
     <module>polyglot-translate-plugin</module>
   </modules>
+
+  <scm>
+    <connection>scm:git:git@github.com:takari/polyglot-maven.git</connection>
+    <developerConnection>scm:git:git@github.com:takari/polyglot-maven.git</developerConnection>
+    <tag>HEAD</tag>
+    <url>https://github.com/takari/polyglot-maven</url>
+  </scm>
+
+  <properties>
+    <mavenVersion>3.9.5</mavenVersion>
+    <sisuInjectVersion>0.9.0.M2</sisuInjectVersion>
+    <plexusUtilsVersion>3.5.1</plexusUtilsVersion>
+    <!-- last that works with Java 8: FIXED to this version as long we insist on Java 8 building this project -->
+    <!-- BUT: signArtifacts goal with this version is busted, so we need to use other means to sign -->
+    <takari.lifecycleVersion>2.0.8</takari.lifecycleVersion>
+    <takari.javaSourceVersion>8</takari.javaSourceVersion>
+    <takari.transitiveDependencyReference>ignore</takari.transitiveDependencyReference>
+  </properties>
 
   <dependencyManagement>
     <dependencies>
@@ -193,32 +193,6 @@
   </dependencies>
 
   <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-enforcer-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>enforce-versions</id>
-            <goals>
-              <goal>enforce</goal>
-            </goals>
-            <phase>validate</phase>
-            <configuration>
-              <failFast>true</failFast>
-              <rules>
-                <requireMavenVersion>
-                  <version>[3.3.9,)</version>
-                </requireMavenVersion>
-                <requireJavaVersion>
-                  <version>1.8.0</version>
-                </requireJavaVersion>
-              </rules>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
     <pluginManagement>
       <plugins>
         <plugin>
@@ -265,9 +239,58 @@
         </plugin>
       </plugins>
     </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>enforce-maven</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <phase>validate</phase>
+            <configuration>
+              <failFast>true</failFast>
+              <rules>
+                <requireJavaVersion>
+                  <version>[8,)</version>
+                </requireJavaVersion>
+                <requireMavenVersion>
+                  <version>[3.3.9,)</version>
+                </requireMavenVersion>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
   </build>
 
   <profiles>
+    <profile>
+      <id>spotless-workaround</id>
+      <activation>
+        <jdk>(,1.8]</jdk>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.diffplug.spotless</groupId>
+            <artifactId>spotless-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>default</id>
+                <goals>
+                  <goal>${spotless.action}</goal>
+                </goals>
+                <phase>none</phase>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
     <!-- START SNIPPET: release-profile -->
     <profile>
       <id>takari-release</id>
@@ -280,10 +303,10 @@
             <executions>
               <execution>
                 <id>sign-artifacts</id>
-                <phase>verify</phase>
                 <goals>
                   <goal>sign</goal>
                 </goals>
+                <phase>verify</phase>
               </execution>
             </executions>
           </plugin>

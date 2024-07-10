@@ -7,11 +7,9 @@
  */
 package org.sonatype.maven.polyglot.java;
 
+import java.util.Map;
 import javax.inject.Named;
 import javax.inject.Singleton;
-
-import java.util.Map;
-
 import org.sonatype.maven.polyglot.mapping.MappingSupport;
 
 /**
@@ -19,29 +17,29 @@ import org.sonatype.maven.polyglot.mapping.MappingSupport;
  *
  */
 @Singleton
-@Named( "java" )
+@Named("java")
 public class JavaMapping extends MappingSupport {
 
-	public JavaMapping() {
-		super("java");
-		setPomNames("pom.java");
-		setAcceptLocationExtensions(".java");
-		setAcceptOptionKeys("java:4.0.0");
-		setPriority(-1);
-	}
+    public JavaMapping() {
+        super("java");
+        setPomNames("pom.java");
+        setAcceptLocationExtensions(".java");
+        setAcceptOptionKeys("java:4.0.0");
+        setPriority(-1);
+    }
 
-	@Override
-	public boolean accept(Map<String, ?> options) {
-		if (options != null) {
+    @Override
+    public boolean accept(Map<String, ?> options) {
+        if (options != null) {
 
-			String location = getLocation(options);
-			if (location != null) {
-				if (location.endsWith(".java")) {
-					return true;
-				}
-			}
-		}
+            String location = getLocation(options);
+            if (location != null) {
+                if (location.endsWith(".java")) {
+                    return true;
+                }
+            }
+        }
 
-		return false;
-	}
+        return false;
+    }
 }

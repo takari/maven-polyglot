@@ -7,15 +7,13 @@
  */
 package org.sonatype.maven.polyglot.ruby;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.util.Map;
-
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
 import org.apache.maven.model.Model;
 import org.codehaus.plexus.classworlds.realm.ClassRealm;
 import org.codehaus.plexus.util.IOUtil;
@@ -30,33 +28,31 @@ import org.sonatype.maven.polyglot.io.ModelReaderSupport;
  * @author m.kristian
  */
 @Singleton
-@Named( "ruby" )
+@Named("ruby")
 public class RubyModelReader extends ModelReaderSupport {
 
     @Inject
     ExecuteManager executeManager;
-    
+
     @Inject
     SetupClassRealm setupManager;
-    
-    public Model read( final Reader input, final Map<String, ?> options )
-            throws IOException {
+
+    public Model read(final Reader input, final Map<String, ?> options) throws IOException {
         assert input != null;
 
-        // for testing that classloader does not need to be a ClassRealm, i.e. the test setup needs 
+        // for testing that classloader does not need to be a ClassRealm, i.e. the test setup needs
         // to take care that all classes are in place
-        if ( getClass().getClassLoader() instanceof ClassRealm ) {
-            setupManager.setupArtifact( Constants.getGAV( "ruby" ),
-                                        (ClassRealm) getClass().getClassLoader() );
+        if (getClass().getClassLoader() instanceof ClassRealm) {
+            setupManager.setupArtifact(
+                    Constants.getGAV("ruby"), (ClassRealm) getClass().getClassLoader());
         }
-        
+
         // read the stream from our pom.rb into a String
         StringWriter ruby = new StringWriter();
-        IOUtil.copy( input, ruby );
-        
+        IOUtil.copy(input, ruby);
+
         // parse the String and create a POM model
-        return new RubyParser( executeManager ).parse( ruby.toString(),
-                PolyglotModelUtil.getLocationFile( options ),
-                options );
+        return new RubyParser(executeManager)
+                .parse(ruby.toString(), PolyglotModelUtil.getLocationFile(options), options);
     }
 }

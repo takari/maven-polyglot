@@ -10,21 +10,21 @@ package org.sonatype.maven.polyglot.scala.model
 import scala.collection.immutable
 
 class Resource(
-                val targetPath: Option[String],
-                val filtering: Boolean,
-                val directory: Option[String],
-                val includes: immutable.Seq[String],
-                val excludes: immutable.Seq[String]
-                )
+    val targetPath: Option[String],
+    val filtering: Boolean,
+    val directory: Option[String],
+    val includes: immutable.Seq[String],
+    val excludes: immutable.Seq[String]
+)
 
 object Resource {
   def apply(
-             targetPath: String = null,
-             filtering: Boolean = false,
-             directory: String = null,
-             includes: immutable.Seq[String] = Nil,
-             excludes: immutable.Seq[String] = Nil
-             ): Resource =
+      targetPath: String = null,
+      filtering: Boolean = false,
+      directory: String = null,
+      includes: immutable.Seq[String] = Nil,
+      excludes: immutable.Seq[String] = Nil
+  ): Resource =
     new Resource(
       Option(targetPath),
       filtering,
@@ -33,7 +33,6 @@ object Resource {
       excludes
     )
 }
-
 
 import org.sonatype.maven.polyglot.scala.ScalaPrettyPrinter._
 
@@ -48,7 +47,6 @@ class PrettiedResource(r: Resource) {
     `object`("Resource", args.toList)
   }
 }
-
 
 import scala.jdk.CollectionConverters._
 import org.apache.maven.model.{Resource => MavenResource}

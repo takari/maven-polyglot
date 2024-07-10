@@ -8,19 +8,19 @@
 package org.sonatype.maven.polyglot.scala.model
 
 class Scm(
-           val connection: Option[String],
-           val developerConnection: Option[String],
-           val tag: String,
-           val url: Option[String]
-           )
+    val connection: Option[String],
+    val developerConnection: Option[String],
+    val tag: String,
+    val url: Option[String]
+)
 
 object Scm {
   def apply(
-             connection: String = null,
-             developerConnection: String = null,
-             tag: String = "HEAD",
-             url: String = null
-             ): Scm =
+      connection: String = null,
+      developerConnection: String = null,
+      tag: String = "HEAD",
+      url: String = null
+  ): Scm =
     new Scm(
       Option(connection),
       Option(developerConnection),
@@ -41,7 +41,6 @@ class PrettiedScm(scm: Scm) {
     `object`("Scm", args.toList)
   }
 }
-
 
 import org.apache.maven.model.{Scm => MavenScm}
 

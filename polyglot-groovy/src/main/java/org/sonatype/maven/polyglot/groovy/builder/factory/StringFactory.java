@@ -8,7 +8,6 @@
 package org.sonatype.maven.polyglot.groovy.builder.factory;
 
 import groovy.util.FactoryBuilderSupport;
-
 import java.util.Map;
 
 /**
@@ -19,16 +18,16 @@ import java.util.Map;
  * @since 0.7
  */
 public class StringFactory extends NamedFactory {
-  public StringFactory(final String name) {
-    super(name);
-  }
+    public StringFactory(final String name) {
+        super(name);
+    }
 
-  @Override
-  public boolean isLeaf() {
-    return true;
-  }
+    @Override
+    public boolean isLeaf() {
+        return true;
+    }
 
-  public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attrs) {
-    return String.valueOf(value);
-  }
+    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attrs) {
+        return String.valueOf(value);
+    }
 }

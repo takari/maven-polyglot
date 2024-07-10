@@ -14,8 +14,8 @@
   </parent>
 
   <artifactId>polyglot-translate-plugin</artifactId>
-  <name>Polyglot :: Translate Plugin</name>
   <packaging>takari-maven-plugin</packaging>
+  <name>Polyglot :: Translate Plugin</name>
 
   <dependencies>
     <!-- This dep was set to provided in parent pom, but when used as Maven plugin, it is essential -->

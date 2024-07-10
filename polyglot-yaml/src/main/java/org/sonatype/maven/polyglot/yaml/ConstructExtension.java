@@ -8,16 +8,15 @@
 package org.sonatype.maven.polyglot.yaml;
 
 import org.apache.maven.model.Extension;
-import org.apache.maven.model.Plugin;
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 
 public class ConstructExtension extends AbstractConstruct {
-  @Override
-  public Object construct(Node node) {
-    ScalarNode scalar = (ScalarNode) node;
-    Coordinate coord = Coordinate.createCoordinate(scalar.getValue());
-    return coord.mergeExtension(new Extension());
-  }
+    @Override
+    public Object construct(Node node) {
+        ScalarNode scalar = (ScalarNode) node;
+        Coordinate coord = Coordinate.createCoordinate(scalar.getValue());
+        return coord.mergeExtension(new Extension());
+    }
 }

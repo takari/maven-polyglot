@@ -15,10 +15,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.inject.Inject;
 import javax.inject.Named;
-
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.model.Model;
 import org.apache.maven.plugin.logging.Log;
@@ -46,13 +44,13 @@ public class RubyModelWithExecuteTasksTest extends InjectedTestCase {
         final PolyglotModelManager modelManager = new PolyglotModelManager() {
             {
                 mappings = new ArrayList<Mapping>();
-             }
-         };
-         modelManager.addMapping( new RubyMapping() );
-         rubyModelReader.executeManager = new ExecuteManagerImpl() {
-             {
-                 manager = modelManager;
-             }
+            }
+        };
+        modelManager.addMapping(new RubyMapping());
+        rubyModelReader.executeManager = new ExecuteManagerImpl() {
+            {
+                manager = modelManager;
+            }
         };
         rubyModelReader.setupManager = new SetupClassRealm();
 
@@ -60,11 +58,10 @@ public class RubyModelWithExecuteTasksTest extends InjectedTestCase {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         System.setOut(new PrintStream(bytes));
         try {
-            
+
             Map<String, Object> options = new HashMap<String, Object>();
-            options.put(  "ruby:4.0.0", true );
-            final Model rubyModel = rubyModelReader.read( new FileReader(pom),
-                                                          options );
+            options.put("ruby:4.0.0", true);
+            final Model rubyModel = rubyModelReader.read(new FileReader(pom), options);
 
             //
             // Test for fidelity
@@ -80,20 +77,19 @@ public class RubyModelWithExecuteTasksTest extends InjectedTestCase {
                 public MavenSession getSession() {
                     return null;
                 }
-                
+
                 public File getBasedir() {
                     return getProject().getBasedir();
                 }
-                
+
                 public Log getLog() {
                     return null;
                 }
             };
-            List<ExecuteTask> tasks = rubyModelReader.executeManager.getTasks(
-                    rubyModel);
+            List<ExecuteTask> tasks = rubyModelReader.executeManager.getTasks(rubyModel);
 
             tasks.get(0).execute(context);
-            assertEquals( "Execute Ruby Tasks", bytes.toString() );
+            assertEquals("Execute Ruby Tasks", bytes.toString());
 
             bytes.reset();
             tasks.get(1).execute(context);
@@ -101,9 +97,8 @@ public class RubyModelWithExecuteTasksTest extends InjectedTestCase {
 
             bytes.reset();
             tasks.get(2).execute(context);
-            assertEquals("#<Maven::Polyglot::Parser",
-                    bytes.toString().replaceFirst( "Parser.*$", "Parser" ) );
-            
+            assertEquals("#<Maven::Polyglot::Parser", bytes.toString().replaceFirst("Parser.*$", "Parser"));
+
         } finally {
             System.setOut(out);
         }

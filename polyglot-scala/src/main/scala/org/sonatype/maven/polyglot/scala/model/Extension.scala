@@ -13,7 +13,6 @@ object Extension {
   def apply(gav: Gav) = new Extension(gav)
 }
 
-
 import org.sonatype.maven.polyglot.scala.ScalaPrettyPrinter._
 
 class PrettiedExtension(e: Extension) {
@@ -22,7 +21,6 @@ class PrettiedExtension(e: Extension) {
     `object`("Extension", args.toList)
   }
 }
-
 
 import org.sonatype.maven.polyglot.scala.MavenConverters._
 import org.apache.maven.model.{Extension => MavenExtension}

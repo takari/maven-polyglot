@@ -18,11 +18,6 @@
   <artifactId>polyglot-scala</artifactId>
   <packaging>takari-maven-component</packaging>
   <name>Polyglot :: Scala</name>
-  
-  <properties>
-    <scala.version>2.13.14</scala.version>
-    <scala.bin.version>2.13</scala.bin.version>
-  </properties>
 
   <contributors>
     <contributor>
@@ -35,6 +30,11 @@
       <url>https://github.com/lefou</url>
     </contributor>
   </contributors>
+
+  <properties>
+    <scala.version>2.13.14</scala.version>
+    <scala.bin.version>2.13</scala.bin.version>
+  </properties>
 
   <dependencies>
     <dependency>
@@ -65,7 +65,7 @@
       <artifactId>scala-library</artifactId>
       <version>${scala.version}</version>
     </dependency>
-    
+
     <dependency>
       <groupId>org.scala-lang</groupId>
       <artifactId>scala-reflect</artifactId>
@@ -77,7 +77,7 @@
       <artifactId>scala-compiler</artifactId>
       <version>${scala.version}</version>
     </dependency>
-    
+
     <dependency>
       <groupId>org.specs2</groupId>
       <artifactId>specs2-junit_${scala.bin.version}</artifactId>
@@ -86,9 +86,49 @@
     </dependency>
   </dependencies>
 
+  <repositories>
+    <repository>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <id>sonatype-public-grid</id>
+      <url>https://repository.sonatype.org/content/groups/sonatype-public-grid/</url>
+    </repository>
+  </repositories>
+
   <build>
-    <sourceDirectory>src/main/scala</sourceDirectory>
-    <testSourceDirectory>src/test/scala</testSourceDirectory>
+
+    <pluginManagement>
+      <plugins>
+        <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+        <plugin>
+          <groupId>org.eclipse.m2e</groupId>
+          <artifactId>lifecycle-mapping</artifactId>
+          <version>1.0.0</version>
+          <configuration>
+            <lifecycleMappingMetadata>
+              <pluginExecutions>
+                <pluginExecution>
+                  <pluginExecutionFilter>
+                    <groupId>net.alchim31.maven</groupId>
+                    <artifactId>scala-maven-plugin</artifactId>
+                    <versionRange>[3.3.0,)</versionRange>
+                    <goals>
+                      <goal>add-source</goal>
+                      <goal>compile</goal>
+                      <goal>testCompile</goal>
+                    </goals>
+                  </pluginExecutionFilter>
+                  <action>
+                    <ignore />
+                  </action>
+                </pluginExecution>
+              </pluginExecutions>
+            </lifecycleMappingMetadata>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -148,54 +188,28 @@
               <showErrors>true</showErrors>
               <debug>false</debug>
               <streamLogs>true</streamLogs>
-              <goals><goal>verify</goal></goals>
+              <goals>
+                <goal>verify</goal>
+              </goals>
             </configuration>
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>com.diffplug.spotless</groupId>
+        <artifactId>spotless-maven-plugin</artifactId>
+        <configuration>
+          <scala>
+            <scalafmt>
+              <version>3.8.1</version>
+              <file>${project.basedir}/.scalafmt.conf</file>
+            </scalafmt>
+          </scala>
+        </configuration>
+      </plugin>
     </plugins>
-
-    <pluginManagement>
-      <plugins>
-        <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
-        <plugin>
-          <groupId>org.eclipse.m2e</groupId>
-          <artifactId>lifecycle-mapping</artifactId>
-          <version>1.0.0</version>
-          <configuration>
-            <lifecycleMappingMetadata>
-              <pluginExecutions>
-                <pluginExecution>
-                  <pluginExecutionFilter>
-                    <groupId>net.alchim31.maven</groupId>
-                    <artifactId>scala-maven-plugin</artifactId>
-                    <versionRange>[3.3.0,)</versionRange>
-                    <goals>
-                      <goal>add-source</goal>
-                      <goal>compile</goal>
-                      <goal>testCompile</goal>
-                    </goals>
-                  </pluginExecutionFilter>
-                  <action>
-                    <ignore />
-                  </action>
-                </pluginExecution>
-              </pluginExecutions>
-            </lifecycleMappingMetadata>
-          </configuration>
-        </plugin>
-      </plugins>
-    </pluginManagement>
+    <sourceDirectory>src/main/scala</sourceDirectory>
+    <testSourceDirectory>src/test/scala</testSourceDirectory>
   </build>
-
-  <repositories>
-    <repository>
-      <id>sonatype-public-grid</id>
-      <url>https://repository.sonatype.org/content/groups/sonatype-public-grid/</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
 
 </project>

@@ -13,10 +13,10 @@ import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 
 public class ConstructPlugin extends AbstractConstruct {
-  @Override
-  public Object construct(Node node) {
-    ScalarNode scalar = (ScalarNode) node;
-    Coordinate coord = Coordinate.createCoordinate(scalar.getValue());
-    return coord.mergePlugin(new Plugin());
-  }
+    @Override
+    public Object construct(Node node) {
+        ScalarNode scalar = (ScalarNode) node;
+        Coordinate coord = Coordinate.createCoordinate(scalar.getValue());
+        return coord.mergePlugin(new Plugin());
+    }
 }

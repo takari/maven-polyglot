@@ -7,17 +7,15 @@
  */
 package org.sonatype.maven.polyglot;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
 import org.apache.maven.model.io.ModelReader;
 import org.apache.maven.model.io.ModelWriter;
 import org.slf4j.Logger;
@@ -35,83 +33,84 @@ import org.sonatype.maven.polyglot.mapping.Mapping;
 @Named
 public class PolyglotModelManager {
 
-  protected Logger log = LoggerFactory.getLogger( PolyglotModelManager.class );
+    protected Logger log = LoggerFactory.getLogger(PolyglotModelManager.class);
 
-  @Inject
-  protected List<Mapping> mappings;
+    @Inject
+    protected List<Mapping> mappings;
 
-  public void addMapping(final Mapping mapping) {
-    assert mapping != null;
-    mappings.add(mapping);
-  }
-  
-  private static final Comparator<Mapping> DESCENDING_PRIORITY = Comparator.comparingDouble(Mapping::getPriority).reversed(); 
-
-  public List<Mapping> getSortedMappings() {
-    List<Mapping> sortedMappings = new ArrayList<>(mappings);
-    sortedMappings.sort(DESCENDING_PRIORITY);
-  return sortedMappings;
-  }
-
-  public ModelReader getReaderFor(final Map<String, ?> options) {	 
-    for (Mapping mapping : getSortedMappings()) {
-      if (mapping.accept(options)) {
-        return mapping.getReader();
-      }
+    public void addMapping(final Mapping mapping) {
+        assert mapping != null;
+        mappings.add(mapping);
     }
 
-    throw new RuntimeException("Unable to determine model input format; options=" + options);
-  }
-  
-  public Properties getEnhancementPropertiesFor(final Map<String, ?> options) {	 
-    for (Mapping mapping : getSortedMappings()) {
-      if (mapping.accept(options)) {
-        return mapping.getEnhancementProperties(options);
-      }
-    }
-    return null;
-  }  
+    private static final Comparator<Mapping> DESCENDING_PRIORITY =
+            Comparator.comparingDouble(Mapping::getPriority).reversed();
 
-  public ModelWriter getWriterFor(final Map<String, ?> options) {
-    for (Mapping mapping : getSortedMappings()) {
-      if (mapping.accept(options)) {
-        return mapping.getWriter();
-      }
+    public List<Mapping> getSortedMappings() {
+        List<Mapping> sortedMappings = new ArrayList<>(mappings);
+        sortedMappings.sort(DESCENDING_PRIORITY);
+        return sortedMappings;
     }
 
-    throw new RuntimeException("Unable to determine model output format; options=" + options);
-  }
+    public ModelReader getReaderFor(final Map<String, ?> options) {
+        for (Mapping mapping : getSortedMappings()) {
+            if (mapping.accept(options)) {
+                return mapping.getReader();
+            }
+        }
 
-  public File findPom(final File dir) {
-    assert dir != null;
-
-    for (Mapping mapping : getSortedMappings()) {
-      File file = mapping.locatePom(dir);
-      if (file != null) {
-        return file;
-      }
-    }
-    return null;
-  }
-
-  public String determineFlavourFromPom(final File dir) {
-    assert dir != null;
-    for (Mapping mapping : getSortedMappings()) {
-      File file = mapping.locatePom(dir);
-      if (file != null) {
-        return mapping.getFlavour();
-      }
-    }
-    return null;
-  }
-
-  public String getFlavourFor(final Map<String, ?> options) {
-    for (Mapping mapping : getSortedMappings()) {
-      if (mapping.accept(options)) {
-        return mapping.getFlavour();
-      }
+        throw new RuntimeException("Unable to determine model input format; options=" + options);
     }
 
-    throw new RuntimeException("Unable determine model input format; options=" + options);
-  }
+    public Properties getEnhancementPropertiesFor(final Map<String, ?> options) {
+        for (Mapping mapping : getSortedMappings()) {
+            if (mapping.accept(options)) {
+                return mapping.getEnhancementProperties(options);
+            }
+        }
+        return null;
+    }
+
+    public ModelWriter getWriterFor(final Map<String, ?> options) {
+        for (Mapping mapping : getSortedMappings()) {
+            if (mapping.accept(options)) {
+                return mapping.getWriter();
+            }
+        }
+
+        throw new RuntimeException("Unable to determine model output format; options=" + options);
+    }
+
+    public File findPom(final File dir) {
+        assert dir != null;
+
+        for (Mapping mapping : getSortedMappings()) {
+            File file = mapping.locatePom(dir);
+            if (file != null) {
+                return file;
+            }
+        }
+        return null;
+    }
+
+    public String determineFlavourFromPom(final File dir) {
+        assert dir != null;
+        for (Mapping mapping : getSortedMappings()) {
+            File file = mapping.locatePom(dir);
+            if (file != null) {
+                return mapping.getFlavour();
+            }
+        }
+        return null;
+    }
+
+    public String getFlavourFor(final Map<String, ?> options) {
+        for (Mapping mapping : getSortedMappings()) {
+            if (mapping.accept(options)) {
+                return mapping.getFlavour();
+            }
+        }
+
+        throw new RuntimeException("Unable determine model input format; options=" + options);
+    }
 }

@@ -10,21 +10,21 @@ package org.sonatype.maven.polyglot.scala.model
 import scala.collection.immutable
 
 class Execution(
-                 val id: String,
-                 val phase: Option[String],
-                 val goals: immutable.Seq[String],
-                 override val inherited: Boolean,
-                 override val configuration: Option[Config]
-                 ) extends ConfigurationContainer(inherited, configuration)
+    val id: String,
+    val phase: Option[String],
+    val goals: immutable.Seq[String],
+    override val inherited: Boolean,
+    override val configuration: Option[Config]
+) extends ConfigurationContainer(inherited, configuration)
 
 object Execution {
   def apply(
-             id: String = "default",
-             phase: String = null,
-             goals: immutable.Seq[String] = immutable.Seq.empty,
-             inherited: Boolean = true,
-             configuration: Config = null
-             ): Execution = {
+      id: String = "default",
+      phase: String = null,
+      goals: immutable.Seq[String] = immutable.Seq.empty,
+      inherited: Boolean = true,
+      configuration: Config = null
+  ): Execution = {
     new Execution(
       id,
       Option(phase),
@@ -34,7 +34,6 @@ object Execution {
     )
   }
 }
-
 
 import org.sonatype.maven.polyglot.scala.ScalaPrettyPrinter._
 
@@ -48,7 +47,6 @@ class PrettiedExecution(e: Execution) {
     `object`("Execution", args.toList)
   }
 }
-
 
 import org.sonatype.maven.polyglot.scala.MavenConverters._
 import scala.jdk.CollectionConverters._

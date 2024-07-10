@@ -14,8 +14,8 @@
   </parent>
 
   <artifactId>polyglot-maven-plugin</artifactId>
-  <name>Polyglot :: Maven Plugin</name>
   <packaging>takari-maven-plugin</packaging>
+  <name>Polyglot :: Maven Plugin</name>
 
   <dependencies>
     <dependency>

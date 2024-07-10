@@ -7,10 +7,9 @@
  */
 package org.sonatype.maven.polyglot.yaml;
 
+import java.util.regex.Pattern;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.resolver.Resolver;
-
-import java.util.regex.Pattern;
 
 /**
  * POM resolver does not need to resolve implicit scalar types as defined in
@@ -18,10 +17,12 @@ import java.util.regex.Pattern;
  */
 public class ModelResolver extends Resolver {
     public static final Pattern POM_NULL = Pattern.compile("^(?:null| )$");
-    public static final Pattern COORDINATE_PATTERN = Pattern.compile("^(?:(?<groupId>[^:]+?):(?<artifactId>[^:]+?):(?<version>[0-9][^:]+?))$");
+    public static final Pattern COORDINATE_PATTERN =
+            Pattern.compile("^(?:(?<groupId>[^:]+?):(?<artifactId>[^:]+?):(?<version>[0-9][^:]+?))$");
     public static final Pattern GROUP_NAME_PATTERN = Pattern.compile("^(?:(?<groupId>[^:]+?):(?<artifactId>[^:]+?))$");
-    //TODO scopes: compile|provided|runtime|test|system|import
-    public static final Pattern DEPENDENCY_PATTERN = Pattern.compile("^(?:(?<groupId>[^:]+?):(?<artifactId>[^:]+?):(?<scope>[^:]+?):(?<version>[0-9].+?))$");
+    // TODO scopes: compile|provided|runtime|test|system|import
+    public static final Pattern DEPENDENCY_PATTERN =
+            Pattern.compile("^(?:(?<groupId>[^:]+?):(?<artifactId>[^:]+?):(?<scope>[^:]+?):(?<version>[0-9].+?))$");
 
     @Override
     protected void addImplicitResolvers() {

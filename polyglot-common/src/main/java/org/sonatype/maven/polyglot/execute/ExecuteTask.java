@@ -15,15 +15,15 @@ package org.sonatype.maven.polyglot.execute;
  * @since 0.7
  */
 public interface ExecuteTask {
-  String getId();
+    String getId();
 
-  String getPhase();
+    String getPhase();
 
-  /**
-   * profile id of the execute task. can be <code>null</code> then the execute task belongs to
-   * project.build
-   */
-  String getProfileId();
+    /**
+     * profile id of the execute task. can be <code>null</code> then the execute task belongs to
+     * project.build
+     */
+    String getProfileId();
 
-  void execute(ExecuteContext context) throws Exception;
+    void execute(ExecuteContext context) throws Exception;
 }

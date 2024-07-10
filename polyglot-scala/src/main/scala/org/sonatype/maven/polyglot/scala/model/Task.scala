@@ -9,13 +9,21 @@ package org.sonatype.maven.polyglot.scala.model
 
 import org.sonatype.maven.polyglot.execute.ExecuteContext
 
-class Task(val id: String, val phase: String, val profileId: Option[String], val block: ExecuteContext => Unit)
+class Task(
+    val id: String,
+    val phase: String,
+    val profileId: Option[String],
+    val block: ExecuteContext => Unit
+)
 
 object Task {
-  def apply(id: String, phase: String, profileId: String = null)(block: ExecuteContext => Unit): Task =
+  def apply(
+      id: String,
+      phase: String,
+      profileId: String = null
+  )(block: ExecuteContext => Unit): Task =
     new Task(id, phase, Option(profileId), block)
 }
-
 
 import org.sonatype.maven.polyglot.scala.ScalaPrettyPrinter._
 

@@ -15,10 +15,8 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.List;
-
 import javax.inject.Inject;
 import javax.inject.Named;
-
 import org.apache.maven.model.Dependency;
 import org.apache.maven.model.Exclusion;
 import org.apache.maven.model.Model;
@@ -40,9 +38,8 @@ public class RubyModelWithMavenTest extends InjectedTestCase {
 
     public void testRubyModelReader() throws Exception {
         File pom = new File(poms, "pom.rb");
-        assertRubyModel( IOUtil.toString( new FileInputStream( pom ) ) );
+        assertRubyModel(IOUtil.toString(new FileInputStream(pom)));
     }
-
 
     public void testRubyModelReaderXmlOutput() throws Exception {
         File pom = new File(poms, "pom.rb");
@@ -54,9 +51,8 @@ public class RubyModelWithMavenTest extends InjectedTestCase {
         rubyModelReader.executeManager = new ExecuteManagerImpl();
         rubyModelReader.setupManager = new SetupClassRealm();
 
-        FileReader r = new FileReader( pom );
+        FileReader r = new FileReader(pom);
         Model rubyModel = rubyModelReader.read(r, new HashMap<String, Object>());
-
 
         //
         // Write out the xml POM
@@ -69,9 +65,8 @@ public class RubyModelWithMavenTest extends InjectedTestCase {
         // Let's take a look at see what's there
         // System.out.println(w.toString());
 
-
         File pomXml = new File(poms, "pom.xml");
-        assertEquals( w.toString(), IOUtil.toString( new FileInputStream( pomXml ) ) );
+        assertEquals(w.toString(), IOUtil.toString(new FileInputStream(pomXml)));
     }
 
     public void testRubyModelWriter() throws Exception {
@@ -87,12 +82,12 @@ public class RubyModelWithMavenTest extends InjectedTestCase {
         writer.write(w, new HashMap<String, Object>(), xmlModel);
 
         // Let's take a look at see what's there
-        //System.out.println(w.toString());
+        // System.out.println(w.toString());
 
-        assertRubyModel( w.toString() );
+        assertRubyModel(w.toString());
     }
 
-    private void assertRubyModel( String rubyPom ) throws IOException {
+    private void assertRubyModel(String rubyPom) throws IOException {
 
         //
         // Read in the Ruby POM
@@ -101,9 +96,8 @@ public class RubyModelWithMavenTest extends InjectedTestCase {
         rubyModelReader.executeManager = new ExecuteManagerImpl();
         rubyModelReader.setupManager = new SetupClassRealm();
 
-        StringReader r = new StringReader( rubyPom );
-        Model rubyModel = rubyModelReader
-                .read(r, new HashMap<String, Object>());
+        StringReader r = new StringReader(rubyPom);
+        Model rubyModel = rubyModelReader.read(r, new HashMap<String, Object>());
         //
         // Test for fidelity
         //
@@ -120,9 +114,9 @@ public class RubyModelWithMavenTest extends InjectedTestCase {
         //
         // gav
         //
-        assertEquals("org.apache.maven:maven:3.0.4-SNAPSHOT", model
-                .getGroupId()
-                + ":" + model.getArtifactId() + ":" + model.getVersion());
+        assertEquals(
+                "org.apache.maven:maven:3.0.4-SNAPSHOT",
+                model.getGroupId() + ":" + model.getArtifactId() + ":" + model.getVersion());
         //
         // packaging
         //
@@ -140,123 +134,114 @@ public class RubyModelWithMavenTest extends InjectedTestCase {
         //
         // parent
         //
-        assertEquals("org.eclipse.tesla:tesla:3", model.getParent()
-                .getGroupId()
-                + ":"
-                + model.getParent().getArtifactId()
-                + ":"
-                + model.getParent().getVersion());
+        assertEquals(
+                "org.eclipse.tesla:tesla:3",
+                model.getParent().getGroupId()
+                        + ":"
+                        + model.getParent().getArtifactId()
+                        + ":"
+                        + model.getParent().getVersion());
         //
         // properties
         //
         assertEquals("1.7", model.getProperties().getProperty("gossipVersion"));
         assertEquals("1.12", model.getProperties().getProperty("aetherVersion"));
         assertEquals("4.8.2", model.getProperties().getProperty("junitVersion"));
-        assertEquals("2.0.6", model.getProperties().getProperty(
-                "plexusUtilsVersion"));
-        assertEquals("2.4", model.getProperties().getProperty(
-                "classWorldsVersion"));
-        assertEquals("UTF-8", model.getProperties().getProperty(
-                "project.build.sourceEncoding"));
-        assertEquals("yyyyMMddHHmm", model.getProperties().getProperty(
-                "maven.build.timestamp.format"));
-        assertEquals("2.2.1", model.getProperties().getProperty(
-                "sisuInjectVersion"));
-        assertEquals("1.4.1", model.getProperties().getProperty(
-                "modelloVersion"));
-        assertEquals("Eclipse Tesla", model.getProperties().getProperty(
-                "distributionName"));
-        assertEquals("1.5.5", model.getProperties()
-                .getProperty("plexusVersion"));
-        assertEquals("3.0.4-SNAPSHOT", model.getProperties().getProperty(
-                "mavenVersion"));
-        assertEquals("1.2_Java1.3", model.getProperties().getProperty(
-                "easyMockVersion"));
+        assertEquals("2.0.6", model.getProperties().getProperty("plexusUtilsVersion"));
+        assertEquals("2.4", model.getProperties().getProperty("classWorldsVersion"));
+        assertEquals("UTF-8", model.getProperties().getProperty("project.build.sourceEncoding"));
+        assertEquals("yyyyMMddHHmm", model.getProperties().getProperty("maven.build.timestamp.format"));
+        assertEquals("2.2.1", model.getProperties().getProperty("sisuInjectVersion"));
+        assertEquals("1.4.1", model.getProperties().getProperty("modelloVersion"));
+        assertEquals("Eclipse Tesla", model.getProperties().getProperty("distributionName"));
+        assertEquals("1.5.5", model.getProperties().getProperty("plexusVersion"));
+        assertEquals("3.0.4-SNAPSHOT", model.getProperties().getProperty("mavenVersion"));
+        assertEquals("1.2_Java1.3", model.getProperties().getProperty("easyMockVersion"));
         assertEquals("2.3", model.getProperties().getProperty("jlineVersion"));
         assertEquals("1.3", model.getProperties().getProperty("jxpathVersion"));
-        assertEquals("true", model.getProperties().getProperty(
-                "maven.test.redirectTestOutputToFile"));
-        assertEquals("1.2", model.getProperties().getProperty(
-                "commonsCliVersion"));
-        assertEquals("UTF-8", model.getProperties().getProperty(
-                "project.reporting.outputEncoding"));
-        assertEquals("1.14", model.getProperties().getProperty(
-                "plexusInterpolationVersion"));
-        assertEquals("Tesla", model.getProperties().getProperty(
-                "distributionShortName"));
-        assertEquals("1.0-beta-7", model.getProperties().getProperty(
-                "wagonVersion"));
-        assertEquals("${maven.build.timestamp}", model.getProperties()
-                .getProperty("build.timestamp"));
-        assertEquals("1.3", model.getProperties().getProperty(
-                "securityDispatcherVersion"));
-        assertEquals("eclipse-tesla", model.getProperties().getProperty(
-                "distributionId"));
+        assertEquals("true", model.getProperties().getProperty("maven.test.redirectTestOutputToFile"));
+        assertEquals("1.2", model.getProperties().getProperty("commonsCliVersion"));
+        assertEquals("UTF-8", model.getProperties().getProperty("project.reporting.outputEncoding"));
+        assertEquals("1.14", model.getProperties().getProperty("plexusInterpolationVersion"));
+        assertEquals("Tesla", model.getProperties().getProperty("distributionShortName"));
+        assertEquals("1.0-beta-7", model.getProperties().getProperty("wagonVersion"));
+        assertEquals("${maven.build.timestamp}", model.getProperties().getProperty("build.timestamp"));
+        assertEquals("1.3", model.getProperties().getProperty("securityDispatcherVersion"));
+        assertEquals("eclipse-tesla", model.getProperties().getProperty("distributionId"));
         assertEquals("1.6.1", model.getProperties().getProperty("slf4jVersion"));
         assertEquals("1.7", model.getProperties().getProperty("cipherVersion"));
-        assertEquals("3.0.4-SNAPSHOT", model.getProperties().getProperty(
-                "gshellVersion"));
+        assertEquals("3.0.4-SNAPSHOT", model.getProperties().getProperty("gshellVersion"));
         //
         // dependencies
         //
-        assertEquals("junit:junit:${junitVersion}", gav(model.getDependencies()
-                .get(0)));
+        assertEquals("junit:junit:${junitVersion}", gav(model.getDependencies().get(0)));
         assertEquals("test", model.getDependencies().get(0).getScope());
         //
         // dependencyManager
         //
-        assertEquals("org.apache.maven:maven-model:${project.version}",
+        assertEquals(
+                "org.apache.maven:maven-model:${project.version}",
                 gav(model.getDependencyManagement().getDependencies().get(0)));
-        assertEquals("org.apache.maven:maven-core:${project.version}",
+        assertEquals(
+                "org.apache.maven:maven-core:${project.version}",
                 gav(model.getDependencyManagement().getDependencies().get(5)));
         assertEquals(
                 "org.sonatype.sisu:sisu-inject-plexus:${sisuInjectVersion}",
                 gav(model.getDependencyManagement().getDependencies().get(12)));
-        assertEquals("org.slf4j:slf4j-simple:${slf4jVersion}", gav(model
-                .getDependencyManagement().getDependencies().get(18)));
-        assertEquals("runtime", model.getDependencyManagement()
-                .getDependencies().get(18).getScope());
-        assertEquals("commons-cli:commons-cli:${commonsCliVersion}", gav(model
-                .getDependencyManagement().getDependencies().get(31)));
-        assertEquals(2, model.getDependencyManagement().getDependencies().get(
-                31).getExclusions().size());
-        assertEquals("commons-lang:commons-lang", gav(model
-                .getDependencyManagement().getDependencies().get(31)
-                .getExclusions().get(0)));
-        assertEquals("commons-logging:commons-logging", gav(model
-                .getDependencyManagement().getDependencies().get(31)
-                .getExclusions().get(1)));
-        assertEquals("org.sonatype.jline:jline:${jlineVersion}", gav(model
-                .getDependencyManagement().getDependencies().get(61)));
-        assertEquals("tests", model.getDependencyManagement().getDependencies()
-                .get(61).getClassifier());
+        assertEquals(
+                "org.slf4j:slf4j-simple:${slf4jVersion}",
+                gav(model.getDependencyManagement().getDependencies().get(18)));
+        assertEquals(
+                "runtime",
+                model.getDependencyManagement().getDependencies().get(18).getScope());
+        assertEquals(
+                "commons-cli:commons-cli:${commonsCliVersion}",
+                gav(model.getDependencyManagement().getDependencies().get(31)));
+        assertEquals(
+                2,
+                model.getDependencyManagement()
+                        .getDependencies()
+                        .get(31)
+                        .getExclusions()
+                        .size());
+        assertEquals(
+                "commons-lang:commons-lang",
+                gav(model.getDependencyManagement()
+                        .getDependencies()
+                        .get(31)
+                        .getExclusions()
+                        .get(0)));
+        assertEquals(
+                "commons-logging:commons-logging",
+                gav(model.getDependencyManagement()
+                        .getDependencies()
+                        .get(31)
+                        .getExclusions()
+                        .get(1)));
+        assertEquals(
+                "org.sonatype.jline:jline:${jlineVersion}",
+                gav(model.getDependencyManagement().getDependencies().get(61)));
+        assertEquals(
+                "tests",
+                model.getDependencyManagement().getDependencies().get(61).getClassifier());
         //
         // pluginManager
         //
         Plugin p = model.getBuild().getPluginManagement().getPlugins().get(0);
-        assertEquals(
-                "org.codehaus.plexus:plexus-component-metadata:${plexusVersion}",
-                gav(p));
+        assertEquals("org.codehaus.plexus:plexus-component-metadata:${plexusVersion}", gav(p));
         assertNull(p.getConfiguration());
         p = model.getBuild().getPluginManagement().getPlugins().get(6);
-        assertEquals(
-                "org.apache.maven.plugins:maven-assembly-plugin:2.2-beta-5",
-                gav(p));
+        assertEquals("org.apache.maven.plugins:maven-assembly-plugin:2.2-beta-5", gav(p));
         assertNull(p.getConfiguration());
         p = model.getBuild().getPluginManagement().getPlugins().get(1);
-        assertEquals(
-                "org.apache.maven.plugins:maven-compiler-plugin:2.3.2",
-                gav(p));
+        assertEquals("org.apache.maven.plugins:maven-compiler-plugin:2.3.2", gav(p));
         assertNotNull(p.getConfiguration());
-        assertEquals("1.5", ((Xpp3Dom) p.getConfiguration()).getChild(
-                "source").getValue());
+        assertEquals("1.5", ((Xpp3Dom) p.getConfiguration()).getChild("source").getValue());
         p = model.getBuild().getPluginManagement().getPlugins().get(4);
-        assertEquals(
-                "org.codehaus.modello:modello-maven-plugin:${modelloVersion}",
-                gav(p));
+        assertEquals("org.codehaus.modello:modello-maven-plugin:${modelloVersion}", gav(p));
         assertNotNull(p.getConfiguration());
-        assertEquals("true", ((Xpp3Dom) p.getConfiguration()).getChild(
-                "useJava5").getValue());
+        assertEquals(
+                "true", ((Xpp3Dom) p.getConfiguration()).getChild("useJava5").getValue());
         //
         // modules
         //
@@ -278,11 +263,9 @@ public class RubyModelWithMavenTest extends InjectedTestCase {
         // plugins
         //
         p = model.getBuild().getPlugins().get(0);
-        assertEquals("org.codehaus.mojo:animal-sniffer-maven-plugin:1.6",
-                gav(p));
+        assertEquals("org.codehaus.mojo:animal-sniffer-maven-plugin:1.6", gav(p));
         assertNotNull(p.getConfiguration());
-        Xpp3Dom config = ((Xpp3Dom) p.getConfiguration()).getChild(
-        "signature");
+        Xpp3Dom config = ((Xpp3Dom) p.getConfiguration()).getChild("signature");
         assertNull(config.getValue());
         assertEquals("org.codehaus.mojo.signature", config.getChild("groupId").getValue());
         assertEquals("java15", config.getChild("artifactId").getValue());
@@ -308,18 +291,18 @@ public class RubyModelWithMavenTest extends InjectedTestCase {
         assertEquals("test-index", goals.get(1));
 
         p = model.getBuild().getPlugins().get(2);
-        assertEquals(
-                "com.mycila.maven-license-plugin:maven-license-plugin:1.9.0",
-                gav(p));
+        assertEquals("com.mycila.maven-license-plugin:maven-license-plugin:1.9.0", gav(p));
         assertNotNull(p.getConfiguration());
-        assertEquals("true", ((Xpp3Dom) p.getConfiguration()).getChild(
-                "aggregate").getValue());
-        assertEquals("true", ((Xpp3Dom) p.getConfiguration()).getChild(
-                "strictCheck").getValue());
-        assertEquals("false", ((Xpp3Dom) p.getConfiguration()).getChild(
-                "useDefaultExcludes").getValue());
-        assertEquals("${project.basedir}/header.txt", ((Xpp3Dom) p
-                .getConfiguration()).getChild("header").getValue());
+        assertEquals(
+                "true", ((Xpp3Dom) p.getConfiguration()).getChild("aggregate").getValue());
+        assertEquals(
+                "true", ((Xpp3Dom) p.getConfiguration()).getChild("strictCheck").getValue());
+        assertEquals(
+                "false",
+                ((Xpp3Dom) p.getConfiguration()).getChild("useDefaultExcludes").getValue());
+        assertEquals(
+                "${project.basedir}/header.txt",
+                ((Xpp3Dom) p.getConfiguration()).getChild("header").getValue());
 
         config = ((Xpp3Dom) p.getConfiguration()).getChild("excludes");
         assertNull(config.getValue());

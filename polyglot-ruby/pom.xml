@@ -22,6 +22,10 @@
   <packaging>takari-maven-component</packaging>
   <name>Polyglot :: Ruby</name>
 
+  <properties>
+    <mavengem-wagon.version>2.0.2</mavengem-wagon.version>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>io.takari.polyglot</groupId>
@@ -42,10 +46,6 @@
     </dependency>
   </dependencies>
 
-  <properties>
-    <mavengem-wagon.version>2.0.2</mavengem-wagon.version>
-  </properties>
-
   <pluginRepositories>
     <pluginRepository>
       <releases>
@@ -60,13 +60,35 @@
   </pluginRepositories>
 
   <build>
-    <extensions>
-      <extension>
-        <groupId>org.jruby.maven</groupId>
-        <artifactId>mavengem-wagon</artifactId>
-        <version>${mavengem-wagon.version}</version>
-      </extension>
-    </extensions>
+    <pluginManagement>
+      <plugins>
+        <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+        <plugin>
+          <groupId>org.eclipse.m2e</groupId>
+          <artifactId>lifecycle-mapping</artifactId>
+          <version>1.0.0</version>
+          <configuration>
+            <lifecycleMappingMetadata>
+              <pluginExecutions>
+                <pluginExecution>
+                  <pluginExecutionFilter>
+                    <groupId>org.jruby.maven</groupId>
+                    <artifactId>gem-maven-plugin</artifactId>
+                    <versionRange>[1.0.1,)</versionRange>
+                    <goals>
+                      <goal>initialize</goal>
+                    </goals>
+                  </pluginExecutionFilter>
+                  <action>
+                    <ignore />
+                  </action>
+                </pluginExecution>
+              </pluginExecutions>
+            </lifecycleMappingMetadata>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
     <plugins>
       <plugin>
         <artifactId>maven-invoker-plugin</artifactId>
@@ -88,39 +110,13 @@
         </executions>
       </plugin>
     </plugins>
-    <pluginManagement>
-      <plugins>
-        <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
-        <plugin>
-          <groupId>org.eclipse.m2e</groupId>
-          <artifactId>lifecycle-mapping</artifactId>
-          <version>1.0.0</version>
-          <configuration>
-            <lifecycleMappingMetadata>
-              <pluginExecutions>
-                <pluginExecution>
-                  <pluginExecutionFilter>
-                    <groupId>org.jruby.maven</groupId>
-                    <artifactId>
-                      gem-maven-plugin
-                    </artifactId>
-                    <versionRange>
-                      [1.0.1,)
-                    </versionRange>
-                    <goals>
-                      <goal>initialize</goal>
-                    </goals>
-                  </pluginExecutionFilter>
-                  <action>
-                    <ignore />
-                  </action>
-                </pluginExecution>
-              </pluginExecutions>
-            </lifecycleMappingMetadata>
-          </configuration>
-        </plugin>
-      </plugins>
-    </pluginManagement>
+    <extensions>
+      <extension>
+        <groupId>org.jruby.maven</groupId>
+        <artifactId>mavengem-wagon</artifactId>
+        <version>${mavengem-wagon.version}</version>
+      </extension>
+    </extensions>
   </build>
   <profiles>
     <!--
@@ -133,20 +129,17 @@
     -->
     <profile>
       <id>build</id>
-   
+
       <activation>
         <file>
           <exists>../polyglot-common</exists>
         </file>
       </activation>
 
-      <repositories>
-	<repository>
-	  <id>mavengems</id>
-	  <url>mavengem:https://rubygems.org</url>
-        </repository>
-      </repositories>
-      
+      <properties>
+        <jruby.plugins.version>3.0.2</jruby.plugins.version>
+      </properties>
+
       <dependencies>
         <dependency>
           <groupId>rubygems</groupId>
@@ -157,9 +150,12 @@
         </dependency>
       </dependencies>
 
-      <properties>
-        <jruby.plugins.version>3.0.2</jruby.plugins.version>
-      </properties>
+      <repositories>
+        <repository>
+          <id>mavengems</id>
+          <url>mavengem:https://rubygems.org</url>
+        </repository>
+      </repositories>
 
       <build>
 
@@ -168,6 +164,9 @@
             <groupId>org.jruby.maven</groupId>
             <artifactId>gem-maven-plugin</artifactId>
             <version>${jruby.plugins.version}</version>
+            <configuration>
+              <includeGemsInResources>provided</includeGemsInResources>
+            </configuration>
             <executions>
               <execution>
                 <goals>
@@ -175,9 +174,6 @@
                 </goals>
               </execution>
             </executions>
-            <configuration>
-              <includeGemsInResources>provided</includeGemsInResources>
-            </configuration>
           </plugin>
 
         </plugins>

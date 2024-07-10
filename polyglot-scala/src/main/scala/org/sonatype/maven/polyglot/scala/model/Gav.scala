@@ -17,6 +17,7 @@ case class GroupId(groupId: Option[String]) {
 }
 
 object GroupId {
+
   /**
    * Group ids are optional and when specified with just "" then they are to be treated as None.
    */
@@ -46,14 +47,18 @@ case class Gav(private val groupArtifactIdObj: GroupArtifactId, version: Option[
 }
 
 object Gav {
+
   /**
    * Versions are optional and when specified with just "" then they are to be treated as None.
    */
   def apply(groupArtifactIdObj: GroupArtifactId, version: String): Gav = {
-    Gav(groupArtifactIdObj, Option(version).flatMap({
-      case v if v.isEmpty => None
-      case v => Some(v)
-    }))
+    Gav(
+      groupArtifactIdObj,
+      Option(version).flatMap({
+        case v if v.isEmpty => None
+        case v => Some(v)
+      })
+    )
   }
 }
 
@@ -67,10 +72,11 @@ class PrettiedGroupArtifactId(ga: GroupArtifactId) {
 
 class PrettiedGav(gav: Gav) {
   def asDoc: Doc = {
-    dquotes(gav.groupId.getOrElse[String]("")) <+> percent <+> dquotes(gav.artifactId) <> gav.version.map(space <> percent <+> dquotes(_)).getOrElse(emptyDoc)
+    dquotes(gav.groupId.getOrElse[String]("")) <+> percent <+> dquotes(
+      gav.artifactId
+    ) <> gav.version.map(space <> percent <+> dquotes(_)).getOrElse(emptyDoc)
   }
 }
-
 
 import org.sonatype.maven.polyglot.scala.MavenConverters._
 

@@ -10,18 +10,19 @@ package org.sonatype.maven.polyglot.scala.model
 import scala.collection.immutable
 
 class ReportSet(
-  val id: String,
-  val reports: immutable.Seq[String],
-  override val inherited: Boolean,
-  override val configuration: Option[Config])
-    extends ConfigurationContainer(inherited, configuration)
+    val id: String,
+    val reports: immutable.Seq[String],
+    override val inherited: Boolean,
+    override val configuration: Option[Config]
+) extends ConfigurationContainer(inherited, configuration)
 
 object ReportSet {
   def apply(
-    id: String = "default",
-    reports: immutable.Seq[String] = immutable.Seq.empty,
-    inherited: Boolean = true,
-    configuration: Config = null) =
+      id: String = "default",
+      reports: immutable.Seq[String] = immutable.Seq.empty,
+      inherited: Boolean = true,
+      configuration: Config = null
+  ) =
     new ReportSet(
       id = id,
       reports = reports,
@@ -45,7 +46,7 @@ class PrettiedReportSet(s: ReportSet) {
 import org.sonatype.maven.polyglot.scala.MavenConverters._
 import scala.jdk.CollectionConverters._
 
-import org.apache.maven.model.{ ReportSet => MavenReportSet }
+import org.apache.maven.model.{ReportSet => MavenReportSet}
 
 class ConvertibleMavenReportSet(ms: MavenReportSet) {
   def asScala: ReportSet = {
@@ -70,5 +71,3 @@ class ConvertibleScalaReportSet(s: ReportSet) {
     ms
   }
 }
-
-

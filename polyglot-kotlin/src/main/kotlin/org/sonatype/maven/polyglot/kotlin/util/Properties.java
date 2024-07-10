@@ -1,27 +1,28 @@
 package org.sonatype.maven.polyglot.kotlin.util;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
+import org.jetbrains.annotations.NotNull;
 
 public class Properties extends java.util.Properties {
 
     @Override
     @NotNull
     public Set<Object> keySet() {
-        return super.keySet().stream().sorted(Comparator.comparing(Object::toString))
+        return super.keySet().stream()
+                .sorted(Comparator.comparing(Object::toString))
                 .collect(LinkedHashSet::new, Set::add, Set::addAll);
     }
 
     @Override
     @NotNull
     public Set<Map.Entry<Object, Object>> entrySet() {
-        return super.entrySet().stream().sorted(Comparator.comparing(e -> e.getKey().toString()))
+        return super.entrySet().stream()
+                .sorted(Comparator.comparing(e -> e.getKey().toString()))
                 .collect(LinkedHashSet::new, Set::add, Set::addAll);
     }
 

@@ -5,7 +5,7 @@ import org.sonatype.maven.polyglot.execute.ExecuteTaskSupport
 
 class KotlinExecuteTask(private val script: ExecuteContext.() -> Unit) : ExecuteTaskSupport() {
 
-    override fun execute(context: ExecuteContext) {
-        context.script()
-    }
+  override fun execute(context: ExecuteContext) {
+    context.script()
+  }
 }

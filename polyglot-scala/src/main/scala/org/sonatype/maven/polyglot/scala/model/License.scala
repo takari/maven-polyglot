@@ -8,19 +8,19 @@
 package org.sonatype.maven.polyglot.scala.model
 
 class License(
-               val name: Option[String],
-               val url: Option[String],
-               val distribution: Option[String],
-               val comments: Option[String]
-               )
+    val name: Option[String],
+    val url: Option[String],
+    val distribution: Option[String],
+    val comments: Option[String]
+)
 
 object License {
   def apply(
-             name: String = null,
-             url: String = null,
-             distribution: String = null,
-             comments: String = null
-             ): License =
+      name: String = null,
+      url: String = null,
+      distribution: String = null,
+      comments: String = null
+  ): License =
     new License(
       Option(name),
       Option(url),
@@ -41,7 +41,6 @@ class PrettiedLicense(im: License) {
     `object`("License", args.toList)
   }
 }
-
 
 import org.apache.maven.model.{License => MavenLicense}
 

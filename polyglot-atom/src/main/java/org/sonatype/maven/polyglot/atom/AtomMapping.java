@@ -9,7 +9,6 @@ package org.sonatype.maven.polyglot.atom;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
-
 import org.sonatype.maven.polyglot.mapping.MappingSupport;
 
 /**
@@ -18,13 +17,13 @@ import org.sonatype.maven.polyglot.mapping.MappingSupport;
  * @author dhanji@gmail.com (Dhanji R. Prasanna)
  */
 @Singleton
-@Named( "atom" )
+@Named("atom")
 public class AtomMapping extends MappingSupport {
-  public AtomMapping() {
-    super("atom");
-    setPomNames("pom.atom");
-    setAcceptLocationExtensions(".atom");
-    setAcceptOptionKeys("atom:4.0.0");
-    setPriority(1);
-  }
+    public AtomMapping() {
+        super("atom");
+        setPomNames("pom.atom");
+        setAcceptLocationExtensions(".atom");
+        setAcceptOptionKeys("atom:4.0.0");
+        setPriority(1);
+    }
 }

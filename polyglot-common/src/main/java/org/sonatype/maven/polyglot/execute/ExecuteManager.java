@@ -9,7 +9,6 @@ package org.sonatype.maven.polyglot.execute;
 
 import java.util.List;
 import java.util.Map;
-
 import org.apache.maven.model.Model;
 
 /**
@@ -21,9 +20,9 @@ import org.apache.maven.model.Model;
  * @since 0.7
  */
 public interface ExecuteManager {
-  void register(Model model, List<ExecuteTask> tasks);
+    void register(Model model, List<ExecuteTask> tasks);
 
-  List<ExecuteTask> getTasks(Model model);
+    List<ExecuteTask> getTasks(Model model);
 
-  void install(Model model, Map<String, ?> options);
+    void install(Model model, Map<String, ?> options);
 }

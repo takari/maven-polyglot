@@ -7,13 +7,11 @@
  */
 package org.sonatype.maven.polyglot.atom;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import java.io.IOException;
 import java.io.Reader;
 import java.util.Map;
-
+import javax.inject.Named;
+import javax.inject.Singleton;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.building.ModelProcessor;
 import org.apache.maven.model.building.ModelSource;
@@ -25,18 +23,21 @@ import org.sonatype.maven.polyglot.io.ModelReaderSupport;
 
 /**
  * Reads a <tt>pom.atom</tt> and transforms into a Maven {@link Model}.
- * 
+ *
  * @author dhanji@gmail.com (Dhanji R. Prasanna)
  */
 @Singleton
-@Named( "atom" )
+@Named("atom")
 public class AtomModelReader extends ModelReaderSupport {
 
-  public Model read(final Reader input, final Map<String, ?> options) throws IOException {
-    assert input != null;
+    public Model read(final Reader input, final Map<String, ?> options) throws IOException {
+        assert input != null;
 
-    // Parse the token stream from our pom.atom configuration file.
-    Project project = new AtomParser((ModelSource)options.get(ModelProcessor.SOURCE), new Tokenizer(IOUtil.toString(input)).tokenize()).parse();
-    return project.toMavenModel();
-  }
+        // Parse the token stream from our pom.atom configuration file.
+        Project project = new AtomParser(
+                        (ModelSource) options.get(ModelProcessor.SOURCE),
+                        new Tokenizer(IOUtil.toString(input)).tokenize())
+                .parse();
+        return project.toMavenModel();
+    }
 }

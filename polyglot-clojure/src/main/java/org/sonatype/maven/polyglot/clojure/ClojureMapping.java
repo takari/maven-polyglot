@@ -9,7 +9,6 @@ package org.sonatype.maven.polyglot.clojure;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
-
 import org.sonatype.maven.polyglot.mapping.MappingSupport;
 
 /**
@@ -21,10 +20,8 @@ import org.sonatype.maven.polyglot.mapping.MappingSupport;
  * @since 0.7
  */
 @Singleton
-@Named( "clojure" )
-public class ClojureMapping
-    extends MappingSupport
-{
+@Named("clojure")
+public class ClojureMapping extends MappingSupport {
     public ClojureMapping() {
         super("clojure");
         setPomNames("pom.clj", "projwct.clj");

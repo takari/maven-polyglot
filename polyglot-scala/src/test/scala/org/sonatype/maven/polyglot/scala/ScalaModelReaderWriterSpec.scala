@@ -22,7 +22,11 @@ import java.util.Collections
 import org.sonatype.maven.polyglot.execute.{ExecuteContext, ExecuteManager, ExecuteTask}
 
 import java.util
-import org.sonatype.maven.polyglot.scala.model.{Build => ScalaBuild, Model => ScalaRawModel, Task => ScalaModelTask}
+import org.sonatype.maven.polyglot.scala.model.{
+  Build => ScalaBuild,
+  Model => ScalaRawModel,
+  Task => ScalaModelTask
+}
 
 import scala.collection.{immutable, mutable}
 import org.apache.maven.project.MavenProject
@@ -41,7 +45,7 @@ class ScalaModelReaderWriterSpec extends Specification with AfterEach {
     def getLocation: String = evalFile.getCanonicalPath
 
     def getLocationURI(): java.net.URI = evalFile.getCanonicalFile().toURI()
-    
+
     def getRelatedSource(relPath: String): ModelSource2 = ??? // ok for this test case
   }
 
@@ -50,7 +54,8 @@ class ScalaModelReaderWriterSpec extends Specification with AfterEach {
   object TestExecuteManager extends ExecuteManager {
     private val modelTasks = mutable.Map[Model, (Boolean, util.List[ExecuteTask])]()
 
-    override def register(model: Model, tasks: util.List[ExecuteTask]): Unit = modelTasks.put(model, (false, tasks))
+    override def register(model: Model, tasks: util.List[ExecuteTask]): Unit =
+      modelTasks.put(model, (false, tasks))
 
     override def getTasks(model: Model): util.List[ExecuteTask] = {
       val attributedTasks = modelTasks.get(model).get
@@ -92,12 +97,13 @@ class ScalaModelReaderWriterSpec extends Specification with AfterEach {
 
   sequential
 
-  /** all tests which use [[readScalaModel]] method fail currently under Java 11.
+  /**
+   * all tests which use [[readScalaModel]] method fail currently under Java 11.
    *  Yet, the plugin still works, so I just disabled these tests and intend to
    *  add some maven-invoker-plugin based tests, to ensure, the built plugin still works.
    */
   def withJava8(f: => org.specs2.execute.Result): Result = {
-    if(sys.props("java.version").startsWith("1.")) {
+    if (sys.props("java.version").startsWith("1.")) {
       f
     } else {
       skipped("Test not working with this Java version")

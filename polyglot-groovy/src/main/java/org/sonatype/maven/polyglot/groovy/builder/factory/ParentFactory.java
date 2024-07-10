@@ -8,9 +8,8 @@
 package org.sonatype.maven.polyglot.groovy.builder.factory;
 
 import groovy.util.FactoryBuilderSupport;
-import org.apache.maven.model.Parent;
-
 import java.util.Map;
+import org.apache.maven.model.Parent;
 
 /**
  * Builds {@link Parent} nodes.
@@ -20,41 +19,42 @@ import java.util.Map;
  * @since 0.7
  */
 public class ParentFactory extends NamedFactory {
-  public ParentFactory() {
-    super("parent");
-  }
-
-  public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attrs) throws InstantiationException, IllegalAccessException {
-    Parent node;
-
-    if (value != null) {
-      node = parse(value);
-
-      if (node == null) {
-        throw new NodeValueParseException(this, value);
-      }
-    } else {
-      node = new Parent();
+    public ParentFactory() {
+        super("parent");
     }
 
-    return node;
-  }
+    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attrs)
+            throws InstantiationException, IllegalAccessException {
+        Parent node;
 
-  public static Parent parse(final Object value) {
-    assert value != null;
+        if (value != null) {
+            node = parse(value);
 
-    if (value instanceof String) {
-      Parent node = new Parent();
-      String[] items = ((String) value).split(":");
-      switch (items.length) {
-      case 3:
-        node.setGroupId(items[0]);
-        node.setArtifactId(items[1]);
-        node.setVersion(items[2]);
+            if (node == null) {
+                throw new NodeValueParseException(this, value);
+            }
+        } else {
+            node = new Parent();
+        }
+
         return node;
-      }
     }
 
-    return null;
-  }
+    public static Parent parse(final Object value) {
+        assert value != null;
+
+        if (value instanceof String) {
+            Parent node = new Parent();
+            String[] items = ((String) value).split(":");
+            switch (items.length) {
+                case 3:
+                    node.setGroupId(items[0]);
+                    node.setArtifactId(items[1]);
+                    node.setVersion(items[2]);
+                    return node;
+            }
+        }
+
+        return null;
+    }
 }

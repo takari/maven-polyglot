@@ -8,24 +8,23 @@
 package org.sonatype.maven.polyglot.scala.model
 
 class Site(
-            val id: Option[String],
-            val name: Option[String],
-            val url: Option[String]
-            )
+    val id: Option[String],
+    val name: Option[String],
+    val url: Option[String]
+)
 
 object Site {
   def apply(
-             id: String = null,
-             name: String = null,
-             url: String = null
-             ): Site =
+      id: String = null,
+      name: String = null,
+      url: String = null
+  ): Site =
     new Site(
       Option(id),
       Option(name),
       Option(url)
     )
 }
-
 
 import org.sonatype.maven.polyglot.scala.ScalaPrettyPrinter._
 
@@ -38,7 +37,6 @@ class PrettiedSite(s: Site) {
     `object`("Site", args.toList)
   }
 }
-
 
 import org.apache.maven.model.{Site => MavenSite}
 

@@ -7,11 +7,10 @@
  */
 package org.sonatype.maven.polyglot.atom.execute;
 
+import java.util.Map;
 import org.sonatype.maven.polyglot.execute.ExecuteContext;
 import org.sonatype.maven.polyglot.execute.ExecuteTask;
 import org.sonatype.maven.polyglot.execute.ExecuteTaskSupport;
-
-import java.util.Map;
 
 /**
  * Encapsulates a Groovy {@link ExecuteTask}.
@@ -37,18 +36,16 @@ public class AtomExecuteTask extends ExecuteTaskSupport {
         return attrs;
     }
 
-
     public void execute(final ExecuteContext context) throws Exception {
-      System.out.println("Executing atom code...");
+        System.out.println("Executing atom code...");
     }
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "{" +
-            "id='" + getId() + '\'' +
-            ", phase='" + getPhase() + '\'' +
-            ", value=" + value +
-            ", attrs=" + attrs +
-            '}';
+        return getClass().getSimpleName() + "{" + "id='"
+                + getId() + '\'' + ", phase='"
+                + getPhase() + '\'' + ", value="
+                + value + ", attrs="
+                + attrs + '}';
     }
 }

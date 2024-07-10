@@ -48,7 +48,8 @@ class ScalaModelSpec extends Specification {
         build = Build(
           sourceDirectory = "src/main/scala2",
           testSourceDirectory = "src/test/scala2",
-          pluginManagement = PluginManagement(immutable.Seq(Plugin("org.eclipse.m2e" % "lifecycle-mapping" % "0"))),
+          pluginManagement =
+            PluginManagement(immutable.Seq(Plugin("org.eclipse.m2e" % "lifecycle-mapping" % "0"))),
           plugins = immutable.Seq(
             Plugin("org.apache.maven.plugins" % "maven-compiler-plugin" % "0"),
             Plugin("net.alchim31.maven" % "scala-maven-plugin" % "0"),

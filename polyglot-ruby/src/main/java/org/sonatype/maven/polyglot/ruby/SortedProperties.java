@@ -11,18 +11,17 @@ import java.util.*;
 
 public class SortedProperties extends Properties {
 
-  public SortedProperties(Properties props) {
-    super(props);
-  }
+    public SortedProperties(Properties props) {
+        super(props);
+    }
 
-  @Override
-  public synchronized Enumeration<Object> keys() {
-    return Collections.enumeration(new TreeSet<Object>(keySet()));
-  }
+    @Override
+    public synchronized Enumeration<Object> keys() {
+        return Collections.enumeration(new TreeSet<Object>(keySet()));
+    }
 
-  @Override
-  public synchronized Set<Object> keySet() {
-    return new TreeSet<Object>(super.keySet());
-  }
-
+    @Override
+    public synchronized Set<Object> keySet() {
+        return new TreeSet<Object>(super.keySet());
+    }
 }

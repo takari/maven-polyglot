@@ -7,22 +7,16 @@
  */
 package org.sonatype.maven.polyglot.plugin;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
-import org.sonatype.maven.polyglot.Constants;
 
-public class VersionTest
-{
+public class VersionTest {
 
     @Test
-    public void test()
-    {
+    public void test() {
         /*
         assertEquals( "plugin version mismatched with the version used to create internal plugin configuration",
-                      Constants.getVersion(),                       
+                      Constants.getVersion(),
                       System.getProperty( "projectversion" ) );
                       */
     }
-
 }

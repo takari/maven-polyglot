@@ -10,16 +10,17 @@ package org.sonatype.maven.polyglot.scala.model
 import scala.collection.immutable
 
 class CiManagement(
-                    val notifiers: immutable.Seq[Notifier],
-                    val system: Option[String],
-                    val url: Option[String]
-                    )
+    val notifiers: immutable.Seq[Notifier],
+    val system: Option[String],
+    val url: Option[String]
+)
 
 object CiManagement {
   def apply(
-             notifiers: immutable.Seq[Notifier] = Nil,
-             system: String = null,
-             url: String = null) =
+      notifiers: immutable.Seq[Notifier] = Nil,
+      system: String = null,
+      url: String = null
+  ) =
     new CiManagement(
       notifiers,
       Option(system),
@@ -27,19 +28,19 @@ object CiManagement {
     )
 }
 
-
 import org.sonatype.maven.polyglot.scala.ScalaPrettyPrinter._
 
 class PrettiedCiManagement(c: CiManagement) {
   def asDoc: Doc = {
     val args = scala.collection.mutable.ListBuffer[Doc]()
-    Some(c.notifiers).filterNot(_.isEmpty).foreach(n => args += assign("notifiers", seq(n.map(_.asDoc))))
+    Some(c.notifiers).filterNot(_.isEmpty).foreach(n =>
+      args += assign("notifiers", seq(n.map(_.asDoc)))
+    )
     c.system.foreach(args += assignString("system", _))
     c.url.foreach(args += assignString("url", _))
     `object`("CiManagement", args.toList)
   }
 }
-
 
 import org.sonatype.maven.polyglot.scala.MavenConverters._
 import scala.jdk.CollectionConverters._

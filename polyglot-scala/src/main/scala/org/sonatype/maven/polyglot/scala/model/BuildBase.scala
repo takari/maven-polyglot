@@ -10,29 +10,29 @@ package org.sonatype.maven.polyglot.scala.model
 import scala.collection.immutable
 
 class BuildBase(
-                 val defaultGoal: Option[String],
-                 val resources: immutable.Seq[Resource],
-                 val testResources: immutable.Seq[Resource],
-                 val directory: Option[String],
-                 val finalName: Option[String],
-                 val filters: immutable.Seq[String],
-                 val pluginManagement: Option[PluginManagement],
-                 val plugins: immutable.Seq[Plugin],
-                 val tasks: immutable.Seq[Task]
-                 )
+    val defaultGoal: Option[String],
+    val resources: immutable.Seq[Resource],
+    val testResources: immutable.Seq[Resource],
+    val directory: Option[String],
+    val finalName: Option[String],
+    val filters: immutable.Seq[String],
+    val pluginManagement: Option[PluginManagement],
+    val plugins: immutable.Seq[Plugin],
+    val tasks: immutable.Seq[Task]
+)
 
 object BuildBase {
   def apply(
-             defaultGoal: String = null,
-             resources: immutable.Seq[Resource] = Nil,
-             testResources: immutable.Seq[Resource] = Nil,
-             directory: String = null,
-             finalName: String = null,
-             filters: immutable.Seq[String] = Nil,
-             pluginManagement: PluginManagement = null,
-             plugins: immutable.Seq[Plugin] = Nil,
-             tasks: immutable.Seq[Task] = Nil
-             ) =
+      defaultGoal: String = null,
+      resources: immutable.Seq[Resource] = Nil,
+      testResources: immutable.Seq[Resource] = Nil,
+      directory: String = null,
+      finalName: String = null,
+      filters: immutable.Seq[String] = Nil,
+      pluginManagement: PluginManagement = null,
+      plugins: immutable.Seq[Plugin] = Nil,
+      tasks: immutable.Seq[Task] = Nil
+  ) =
     new BuildBase(
       Option(defaultGoal),
       resources,
@@ -46,7 +46,6 @@ object BuildBase {
     )
 }
 
-
 import org.sonatype.maven.polyglot.scala.ScalaPrettyPrinter._
 
 class PrettiedBuildBase(b: BuildBase) {
@@ -57,18 +56,23 @@ class PrettiedBuildBase(b: BuildBase) {
   def asDocArgs: immutable.Seq[Doc] = {
     val args = scala.collection.mutable.ListBuffer[Doc]()
     b.defaultGoal.foreach(args += assignString("defaultGoal", _))
-    Some(b.resources).filterNot(_.isEmpty).foreach(r => args += assign("resources", seq(r.map(_.asDoc))))
-    Some(b.testResources).filterNot(_.isEmpty).foreach(trs => args += assign("testResources", seq(trs.map(_.asDoc))))
+    Some(b.resources).filterNot(_.isEmpty).foreach(r =>
+      args += assign("resources", seq(r.map(_.asDoc)))
+    )
+    Some(b.testResources).filterNot(_.isEmpty).foreach(trs =>
+      args += assign("testResources", seq(trs.map(_.asDoc)))
+    )
     b.directory.foreach(args += assignString("directory", _))
     b.finalName.foreach(args += assignString("finalName", _))
     Some(b.filters).filterNot(_.isEmpty).foreach(f => args += assign("filters", seqString(f)))
     b.pluginManagement.foreach(pm => args += assign("pluginManagement", pm.asDoc))
-    Some(b.plugins).filterNot(_.isEmpty).foreach(ps => args += assign("plugins", seq(ps.map(_.asDoc))))
+    Some(b.plugins).filterNot(_.isEmpty).foreach(ps =>
+      args += assign("plugins", seq(ps.map(_.asDoc)))
+    )
     Some(b.tasks).filterNot(_.isEmpty).foreach(ps => args += assign("tasks", seq(ps.map(_.asDoc))))
     args.toList
   }
 }
-
 
 import org.sonatype.maven.polyglot.scala.MavenConverters._
 import scala.jdk.CollectionConverters._

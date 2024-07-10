@@ -10,25 +10,25 @@ package org.sonatype.maven.polyglot.scala.model
 import scala.collection.immutable
 
 class Contributor(
-                   val email: Option[String],
-                   val name: Option[String],
-                   val organization: Option[String],
-                   val organizationUrl: Option[String],
-                   val roles: immutable.Seq[String],
-                   val timezone: Option[String],
-                   val url: Option[String]
-                   )
+    val email: Option[String],
+    val name: Option[String],
+    val organization: Option[String],
+    val organizationUrl: Option[String],
+    val roles: immutable.Seq[String],
+    val timezone: Option[String],
+    val url: Option[String]
+)
 
 object Contributor {
   def apply(
-             email: String = null,
-             name: String = null,
-             organization: String = null,
-             organizationUrl: String = null,
-             roles: immutable.Seq[String] = Nil,
-             timezone: String = null,
-             url: String = null
-             ) =
+      email: String = null,
+      name: String = null,
+      organization: String = null,
+      organizationUrl: String = null,
+      roles: immutable.Seq[String] = Nil,
+      timezone: String = null,
+      url: String = null
+  ) =
     new Contributor(
       Option(email),
       Option(name),
@@ -39,7 +39,6 @@ object Contributor {
       Option(url)
     )
 }
-
 
 import org.sonatype.maven.polyglot.scala.ScalaPrettyPrinter._
 
@@ -58,7 +57,6 @@ class PrettiedContributor(c: Contributor) {
     args.toList
   }
 }
-
 
 import scala.jdk.CollectionConverters._
 import org.apache.maven.model.{Contributor => MavenContributor}

@@ -5,11 +5,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
-
 import org.codehaus.plexus.util.xml.Xpp3Dom;
 import org.codehaus.plexus.util.xml.Xpp3DomBuilder;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
@@ -20,9 +18,7 @@ public class ConfiugrationXmlBuilder {
     ByteArrayOutputStream outputStream;
     XMLStreamWriter writer;
 
-    public ConfiugrationXmlBuilder() {
-    	
-    }
+    public ConfiugrationXmlBuilder() {}
 
     protected XMLStreamWriter createWriter(OutputStream outputStream) {
         try {
@@ -37,12 +33,12 @@ public class ConfiugrationXmlBuilder {
     }
 
     public ConfiugrationXmlBuilder startXML() {
-    	
-    	this.outputStream = new ByteArrayOutputStream();
-        this.writer = createWriter(outputStream);	
-    	
+
+        this.outputStream = new ByteArrayOutputStream();
+        this.writer = createWriter(outputStream);
+
         try {
-            writer.writeStartDocument();            
+            writer.writeStartDocument();
             return this;
         } catch (XMLStreamException e) {
             throw new RuntimeException(e);
@@ -50,19 +46,19 @@ public class ConfiugrationXmlBuilder {
     }
 
     public Xpp3Dom endXML() {
-        try {        	
+        try {
             writer.writeEndDocument();
             writer.flush();
-            writer.close();         
+            writer.close();
 
             Xpp3Dom dom = null;
             try {
-				dom = Xpp3DomBuilder.build(new InputStreamReader(new ByteArrayInputStream(outputStream.toByteArray())));
-			} catch (XmlPullParserException e) {
-				throw new RuntimeException(e);
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
+                dom = Xpp3DomBuilder.build(new InputStreamReader(new ByteArrayInputStream(outputStream.toByteArray())));
+            } catch (XmlPullParserException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             return dom;
         } catch (XMLStreamException e) {
             throw new RuntimeException(e);
@@ -136,6 +132,5 @@ public class ConfiugrationXmlBuilder {
                 throw new RuntimeException(e);
             }
         }
-
     }
 }

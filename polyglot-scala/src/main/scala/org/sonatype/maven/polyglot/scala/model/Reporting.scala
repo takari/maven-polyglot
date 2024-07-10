@@ -10,15 +10,17 @@ package org.sonatype.maven.polyglot.scala.model
 import scala.collection.immutable
 
 class Reporting(
-  val excludeDefaults: Boolean,
-  val outputDirectory: Option[String],
-  val plugins: immutable.Seq[ReportPlugin])
+    val excludeDefaults: Boolean,
+    val outputDirectory: Option[String],
+    val plugins: immutable.Seq[ReportPlugin]
+)
 
 object Reporting {
   def apply(
-    excludeDefaults: Boolean = false,
-    outputDirectory: String = null,
-    plugins: immutable.Seq[ReportPlugin] = immutable.Seq.empty) =
+      excludeDefaults: Boolean = false,
+      outputDirectory: String = null,
+      plugins: immutable.Seq[ReportPlugin] = immutable.Seq.empty
+  ) =
     new Reporting(
       excludeDefaults = excludeDefaults,
       outputDirectory = Option(outputDirectory),
@@ -33,14 +35,16 @@ class PrettiedReporting(r: Reporting) {
     val args = scala.collection.mutable.ListBuffer[Doc]()
     args += assignString("excludeDefaults", (if (r.excludeDefaults) "true" else "false"))
     r.outputDirectory.foreach(args += assignString("outputDirectory", _))
-    Some(r.plugins).filterNot(_.isEmpty).foreach(ps => args += assign("plugins", seq(ps.map(_.asDoc))))
+    Some(r.plugins).filterNot(_.isEmpty).foreach(ps =>
+      args += assign("plugins", seq(ps.map(_.asDoc)))
+    )
     `object`("Reporting", args.toList)
   }
 }
 
 import org.sonatype.maven.polyglot.scala.MavenConverters._
 import scala.jdk.CollectionConverters._
-import org.apache.maven.model.{ Reporting => MavenReporting }
+import org.apache.maven.model.{Reporting => MavenReporting}
 
 class ConvertibleMavenReporting(mr: MavenReporting) {
   def asScala: Reporting = {

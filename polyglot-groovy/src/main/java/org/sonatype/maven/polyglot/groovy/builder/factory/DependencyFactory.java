@@ -8,9 +8,8 @@
 package org.sonatype.maven.polyglot.groovy.builder.factory;
 
 import groovy.util.FactoryBuilderSupport;
-import org.apache.maven.model.Dependency;
-
 import java.util.Map;
+import org.apache.maven.model.Dependency;
 
 /**
  * Builds {@link org.apache.maven.model.Dependency} nodes.
@@ -20,53 +19,54 @@ import java.util.Map;
  * @since 0.7
  */
 public class DependencyFactory extends NamedFactory {
-  public DependencyFactory() {
-    super("dependency");
-  }
-
-  public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attrs) throws InstantiationException, IllegalAccessException {
-    Dependency node;
-
-    if (value != null) {
-      node = parse(value);
-
-      if (node == null) {
-        throw new NodeValueParseException(this, value);
-      }
-    } else {
-      node = new Dependency();
+    public DependencyFactory() {
+        super("dependency");
     }
 
-    return node;
-  }
+    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attrs)
+            throws InstantiationException, IllegalAccessException {
+        Dependency node;
 
-  public static Dependency parse(final Object value) {
-    assert value != null;
+        if (value != null) {
+            node = parse(value);
 
-    if (value instanceof String) {
-      Dependency node = new Dependency();
-      String[] items = ((String) value).split(":");
-      switch (items.length) {
-      case 4:
-        node.setGroupId(items[0]);
-        node.setArtifactId(items[1]);
-        node.setVersion(items[2]);
-        node.setScope(items[3]);
+            if (node == null) {
+                throw new NodeValueParseException(this, value);
+            }
+        } else {
+            node = new Dependency();
+        }
+
         return node;
-
-      case 3:
-        node.setGroupId(items[0]);
-        node.setArtifactId(items[1]);
-        node.setVersion(items[2]);
-        return node;
-
-      case 2:
-        node.setGroupId(items[0]);
-        node.setArtifactId(items[1]);
-        return node;
-      }
     }
 
-    return null;
-  }
+    public static Dependency parse(final Object value) {
+        assert value != null;
+
+        if (value instanceof String) {
+            Dependency node = new Dependency();
+            String[] items = ((String) value).split(":");
+            switch (items.length) {
+                case 4:
+                    node.setGroupId(items[0]);
+                    node.setArtifactId(items[1]);
+                    node.setVersion(items[2]);
+                    node.setScope(items[3]);
+                    return node;
+
+                case 3:
+                    node.setGroupId(items[0]);
+                    node.setArtifactId(items[1]);
+                    node.setVersion(items[2]);
+                    return node;
+
+                case 2:
+                    node.setGroupId(items[0]);
+                    node.setArtifactId(items[1]);
+                    return node;
+            }
+        }
+
+        return null;
+    }
 }

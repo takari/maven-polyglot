@@ -9,7 +9,6 @@ package org.sonatype.maven.polyglot.groovy;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
-
 import org.sonatype.maven.polyglot.mapping.MappingSupport;
 
 /**
@@ -20,13 +19,13 @@ import org.sonatype.maven.polyglot.mapping.MappingSupport;
  * @since 0.7
  */
 @Singleton
-@Named( "groovy" )
+@Named("groovy")
 public class GroovyMapping extends MappingSupport {
-  public GroovyMapping() {
-    super("groovy");
-    setPomNames("pom.groovy", "pom.gy");
-    setAcceptLocationExtensions(".groovy", ".gy");
-    setAcceptOptionKeys("groovy:4.0.0");
-    setPriority(1);
-  }
+    public GroovyMapping() {
+        super("groovy");
+        setPomNames("pom.groovy", "pom.gy");
+        setAcceptLocationExtensions(".groovy", ".gy");
+        setAcceptOptionKeys("groovy:4.0.0");
+        setPriority(1);
+    }
 }

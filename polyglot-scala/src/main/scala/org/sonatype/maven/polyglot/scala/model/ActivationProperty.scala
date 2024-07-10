@@ -8,21 +8,20 @@
 package org.sonatype.maven.polyglot.scala.model
 
 class ActivationProperty(
-                          val name: Option[String],
-                          val value: Option[String]
-                          )
+    val name: Option[String],
+    val value: Option[String]
+)
 
 object ActivationProperty {
   def apply(
-             name: String = null,
-             value: String = null
-             ) =
+      name: String = null,
+      value: String = null
+  ) =
     new ActivationProperty(
       Option(name),
       Option(value)
     )
 }
-
 
 import org.sonatype.maven.polyglot.scala.ScalaPrettyPrinter._
 
@@ -34,7 +33,6 @@ class PrettiedActivationProperty(ap: ActivationProperty) {
     `object`("ActivationProperty", args.toList)
   }
 }
-
 
 import org.apache.maven.model.{ActivationProperty => MavenActivationProperty}
 

@@ -15,33 +15,33 @@ package org.sonatype.maven.polyglot.execute;
  * @since 0.7
  */
 public abstract class ExecuteTaskSupport implements ExecuteTask {
-  private String id;
+    private String id;
 
-  private String phase;
+    private String phase;
 
-  private String profileId = null;
+    private String profileId = null;
 
-  public String getId() {
-    return id;
-  }
+    public String getId() {
+        return id;
+    }
 
-  public void setId(final String id) {
-    this.id = id;
-  }
+    public void setId(final String id) {
+        this.id = id;
+    }
 
-  public String getPhase() {
-    return phase;
-  }
+    public String getPhase() {
+        return phase;
+    }
 
-  public void setPhase(final String phase) {
-    this.phase = phase;
-  }
+    public void setPhase(final String phase) {
+        this.phase = phase;
+    }
 
-  public String getProfileId() {
-    return profileId;
-  }
+    public String getProfileId() {
+        return profileId;
+    }
 
-  public void setProfileId(String profileId) {
-    this.profileId = profileId;
-  }
+    public void setProfileId(String profileId) {
+        this.profileId = profileId;
+    }
 }
