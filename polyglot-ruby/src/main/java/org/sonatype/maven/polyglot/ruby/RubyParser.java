@@ -39,8 +39,10 @@ public class RubyParser {
     {
         this.executeManager = executeManager;
         this.jruby = new IsolatedScriptingContainer();
+        DualClassLoader loader = new DualClassLoader(jruby.getClassLoader())
+        jruby.setClassLoader(loader);
         this.parser = jruby.runScriptlet( PathType.CLASSPATH, "parser.rb" );
-        this.factory = new RubyExecuteTaskFactory( jruby );
+        this.factory = new RubyExecuteTaskFactory( jruby, loader );
     }
 
     // synchronize it since it is not clear how threadsafe everything is

@@ -20,12 +20,12 @@ public class RubyExecuteTaskFactory {
     private ScriptingContainer jruby;
     private List<ExecuteTask> tasks = new LinkedList<ExecuteTask>();
 
-    public RubyExecuteTaskFactory( ScriptingContainer jruby ) {
+    public RubyExecuteTaskFactory( ScriptingContainer jruby, DualClassLoader loader ) {
         this.jruby = jruby;
     }
 
     public void addExecuteTask( String id, String phase, String profileId, Object script ){
-        RubyExecuteTask task = new RubyExecuteTask( jruby );
+        RubyExecuteTask task = new RubyExecuteTask( jruby, loader );
         task.setId( id );
         task.setPhase( phase );
         task.setProfileId( profileId );

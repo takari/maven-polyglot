@@ -24,7 +24,7 @@ public class RubyExecuteTask extends ExecuteTaskSupport {
     private ScriptingContainer jruby;
     private Object script;
 
-    public RubyExecuteTask(ScriptingContainer jruby) {
+    public RubyExecuteTask(ScriptingContainer jruby, DualClassLoader loader) {
         this.jruby = jruby;
     }
 
@@ -37,6 +37,7 @@ public class RubyExecuteTask extends ExecuteTaskSupport {
     }
 
     public void execute(final ExecuteContext context) throws Exception {
+        loader.append(jruby.getProvider().getRubyInstanceConfig().getCurrentThreadClassLoader())
         jruby.callMethod(script, "call", context);
     }
 
