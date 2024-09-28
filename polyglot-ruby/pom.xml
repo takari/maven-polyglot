@@ -180,6 +180,70 @@
             </configuration>
           </plugin>
 
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <version>3.8.0</version>
+            <executions>
+              <execution>
+                <id>unpack-maven</id>
+                <goals>
+                  <goal>unpack</goal>
+                </goals>
+                <phase>package</phase>
+                <configuration>
+                  <artifact>org.apache.maven:apache-maven:${mavenVersion}:zip:bin</artifact>
+                </configuration>
+              </execution>
+              <execution>
+                <id>add-polyglot-ruby</id>
+                <goals>
+                  <goal>copy</goal>
+                </goals>
+                <phase>package</phase>
+                <configuration>
+                  <artifactItems>
+                    <artifactItem>
+                      <groupId>${project.groupId}</groupId>
+                      <artifactId>${project.artifactId}</artifactId>
+                      <version>${project.version}</version>
+                      <type>${project.packaging}</type>
+                    </artifactItem>
+                  </artifactItems>
+                  <outputDirectory>${project.build.directory}/dependency/apache-maven-${mavenVersion}/lib/ext</outputDirectory>
+                </configuration>
+              </execution>
+              <execution>
+                <id>add-polyglot-ruby-dependencies</id>
+                <goals>
+                  <goal>copy-dependencies</goal>
+                </goals>
+                <phase>package</phase>
+                <configuration>
+                  <includeScope>runtime</includeScope>
+                  <outputDirectory>${project.build.directory}/dependency/apache-maven-${mavenVersion}/lib/ext</outputDirectory>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-assembly-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>create-distro-packages</id>
+                <goals>
+                  <goal>single</goal>
+                </goals>
+                <phase>package</phase>
+                <configuration>
+                  <descriptors>
+                    <descriptor>src/main/assembly/distro.xml</descriptor>
+                  </descriptors>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
         </plugins>
       </build>
 
