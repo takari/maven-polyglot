@@ -81,7 +81,7 @@
     <dependency>
       <groupId>org.specs2</groupId>
       <artifactId>specs2-junit_${scala.bin.version}</artifactId>
-      <version>4.20.2</version>
+      <version>4.20.9</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
