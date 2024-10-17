@@ -42,7 +42,7 @@
     <dependency>
       <groupId>com.cedarsoftware</groupId>
       <artifactId>java-util</artifactId>
-      <version>1.68.0</version>
+      <version>2.18.0</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
