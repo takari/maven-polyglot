@@ -30,7 +30,7 @@
     <dependency>
       <groupId>org.jruby</groupId>
       <artifactId>jruby</artifactId>
-      <version>9.4.5.0</version>
+      <version>9.4.9.0</version>
       <type>pom</type>
     </dependency>
     <!-- Test -->
