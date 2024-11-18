@@ -67,27 +67,6 @@
         <version>${mavengem-wagon.version}</version>
       </extension>
     </extensions>
-    <plugins>
-      <plugin>
-        <artifactId>maven-invoker-plugin</artifactId>
-        <configuration>
-          <cloneProjectsTo>${project.build.directory}/it</cloneProjectsTo>
-        </configuration>
-        <executions>
-          <execution>
-            <id>integration-test</id>
-            <goals>
-              <goal>install</goal>
-              <goal>run</goal>
-            </goals>
-            <configuration>
-              <settingsFile>${basedir}/src/it/settings.xml</settingsFile>
-              <localRepositoryPath>${project.build.directory}/local-repo</localRepositoryPath>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
     <pluginManagement>
       <plugins>
         <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->

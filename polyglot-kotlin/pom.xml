@@ -103,31 +103,6 @@
     <testSourceDirectory>src/test/kotlin</testSourceDirectory>
     <plugins>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-invoker-plugin</artifactId>
-        <configuration>
-          <failIfNoProjects>true</failIfNoProjects>
-          <cloneProjectsTo>${project.build.directory}/it</cloneProjectsTo>
-        </configuration>
-        <executions>
-          <execution>
-            <id>integration-test</id>
-            <goals>
-              <goal>install</goal>
-              <goal>run</goal>
-            </goals>
-            <configuration>
-              <settingsFile>${basedir}/src/it/settings.xml</settingsFile>
-              <localRepositoryPath>${project.build.directory}/local-repo</localRepositoryPath>
-              <showErrors>true</showErrors>
-              <debug>false</debug>
-              <streamLogs>true</streamLogs>
-              <goals><goal>verify</goal></goals>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
         <groupId>org.jetbrains.kotlin</groupId>
         <artifactId>kotlin-maven-plugin</artifactId>
         <version>${kotlin.version}</version>

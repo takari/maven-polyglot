@@ -1,4 +1,4 @@
-name: Verify
+name: CI
 
 on:
   push:
@@ -6,24 +6,50 @@ on:
       - master
   pull_request:
 
-concurrency: 
+concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
   build:
-    strategy:
-      matrix:
-        java: [ 8, 11, 17, 21 ]
-      fail-fast: false
+    name: Build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: "Set up JDK ${{ matrix.java }}"
-        uses: actions/setup-java@v4
         with:
-          java-version: ${{ matrix.java }}
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '21'
           distribution: 'temurin'
-      - name: Build & Test
-        run: ./mvnw -B clean verify
-
+      - uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: maven-${{ hashFiles('**/pom.xml') }}
+      - run: ./mvnw clean install -e -B -V
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    needs: build
+    if: (!cancelled()) && needs.build.result == 'success'
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ "ubuntu-latest", "windows-latest", "macos-latest" ]
+        jdk: [ "8", "11", "17", "21" ]
+        distribution: [ "zulu" ]
+        maven: [ "3.6.3", "3.8.8", "3.9.9" ]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          java-version: ${{ matrix.jdk }}
+          distribution: ${{ matrix.distribution }}
+      - uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: maven-${{ hashFiles('**/pom.xml') }}
+      - run: ./mvnw -Dmaven=${{ matrix.maven }} -Dtype=only-script wrapper:wrapper
+      - run: ./mvnw install -e -B -V -P run-its -rf :its

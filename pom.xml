@@ -58,10 +58,16 @@
     <module>polyglot-kotlin</module>
     <module>polyglot-maven-plugin</module>
     <module>polyglot-translate-plugin</module>
+    <module>its</module>
   </modules>
 
   <dependencyManagement>
     <dependencies>
+      <dependency>
+        <groupId>io.takari.polyglot</groupId>
+        <artifactId>polyglot-clojure</artifactId>
+        <version>${project.version}</version>
+      </dependency>
       <dependency>
         <groupId>io.takari.polyglot</groupId>
         <artifactId>polyglot-common</artifactId>
