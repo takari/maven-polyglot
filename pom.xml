@@ -10,7 +10,7 @@
   <parent>
     <groupId>io.takari</groupId>
     <artifactId>takari</artifactId>
-    <version>51</version>
+    <version>63</version>
   </parent>
 
   <groupId>io.takari.polyglot</groupId>
