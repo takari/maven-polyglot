@@ -20,7 +20,7 @@
   <name>Polyglot :: Scala</name>
   
   <properties>
-    <scala.version>2.13.14</scala.version>
+    <scala.version>2.13.15</scala.version>
     <scala.bin.version>2.13</scala.bin.version>
   </properties>
 
